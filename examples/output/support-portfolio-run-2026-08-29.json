@@ -1,0 +1,304 @@
+{
+  "title": "What your support evals prove today",
+  "generated_at": "29 August 2026",
+  "evidence_level": "fresh local runs on synthetic, saved, or controlled data; no production customer traffic",
+  "verdict": "GOOD LOCAL TEST LAB — NOT YET PROVEN WITH REAL CUSTOMERS",
+  "plain_summary": "I ran the support tests across your projects. You have built a useful way to check support AI before customers use it. Some parts work well. Some parts still make mistakes. None of this has been tested with real customers yet.",
+  "simple_verdict": "You have built a good support QA test lab.",
+  "simple_verdict_detail": "It can catch many bad support behaviours before release. It is not yet a proven live QA system because you do not have real customer traffic or a live support operation. That is an evidence gap, not a personal failure.",
+  "simple_summary": [
+    {
+      "title": "What you built",
+      "text": "A repeatable way to give a support AI a customer problem, watch what it does, check the result, and save the proof."
+    },
+    {
+      "title": "What works well",
+      "text": "Your tests are good at catching wrong routing, early guessing, unsafe promises, actions that were never confirmed, and weak handoffs."
+    },
+    {
+      "title": "What is weak",
+      "text": "The intent classifier struggles with normal customer language. The AI quality reviewers still miss some bad answers. The combined product proof is out of date."
+    },
+    {
+      "title": "What you can honestly say",
+      "text": "You built and tested a support-evaluation method across chat, technical support, handoffs, voice, screen guidance, and support operations. Do not call it production-proven yet."
+    }
+  ],
+  "next_steps": [
+    "Keep the framework. The basic design is sound.",
+    "Add 25 to 50 naturally worded customer cases, especially for technical help and account access. You do not need a live employer or real customer data to do this.",
+    "Connect one of your non-live support products to the framework and show one clean report containing normal cases, hard cases, and deliberate failures."
+  ],
+  "fresh_automated_tests": "1,686 attempts",
+  "fresh_journeys": "kept separate below",
+  "findings": [
+    "The shared framework passed all 44 of its own tests, passed five normal chat journeys, and blocked all 12 deliberate chat and voice defects.",
+    "The strongest common pattern is evidence-timed support: the system should ask or act only when the case record supports that step, then verify what changed before it claims success.",
+    "The intent classifier is the sharpest quality warning. Its synthetic accuracy is about 90–96%, but the five tested model versions scored only 20–50% on ten naturally worded customer messages.",
+    "The local QA judges reached 38/40 calibrated accuracy, but one real unsafe promise still passed and three responses did not match the required JSON format.",
+    "Voice Support handled all 11 saved journeys correctly in deterministic mode, but its release verdict stayed blocked because the five AI QA reviewers did not run. One speech-worker restart test timed out in the full suite, then passed on a focused retry.",
+    "Support Binder's 82 tests passed, but its cross-product seal rejected the run because several checked-out components no longer match the recorded proof commits and tags.",
+    "No result here comes from real customer traffic. That is a limit on the claim, not proof that the framework cannot be used by a live support team."
+  ],
+  "limits": [
+    "No real customers, production tickets, production calls, CSAT, first-contact resolution, or business outcome was measured.",
+    "Paid OpenRouter, Anthropic, and provider-based model runs were not started when a required key was absent or the run would spend money. They remain visible as not run.",
+    "Live Zammad acceptance was not repeated because it changes helpdesk records. The current run stayed read-only outside Support Evals.",
+    "Full-screen provider evaluation and live telephony were not run. Captured traces and controlled app fixtures were used instead.",
+    "Scores from unit tests, model comparisons, customer journeys, benchmark arms, and attack cases answer different questions. They must not be merged into one portfolio pass rate.",
+    "A local pass means the declared check passed in this environment. It does not mean the same system will pass with real customer language, policy changes, broken integrations, or production load."
+  ],
+  "source_check": {
+    "summary": "This task kept all source repositories outside Support Evals read-only. One unrelated untracked file appeared in Support Product while the long run was underway.",
+    "detail": "Existing user changes in Quality Agency, Realtime Support, Intent Classifier, Support State Core, and Screen-Aware Support were preserved. At 15:33:53, support-product/docs/architecture/support-system-architecture.tldraw appeared; this task did not create, edit, or remove it, and its source is not inferred. Generated eval artifacts that needed writes were created in temporary copies."
+  },
+  "framework_checks": [
+    {
+      "test": "Framework regression suite",
+      "result": "44 / 44 passed",
+      "meaning": "The runner keeps failed checks, errors, abstentions, unsafe outcomes, traces, reports, and release decisions visible."
+    },
+    {
+      "test": "Normal chat journeys",
+      "result": "5 / 5 passed",
+      "meaning": "The reference shop covered technical help, account access, delivery, billing, and an engineering handoff."
+    },
+    {
+      "test": "Deliberately broken chat journeys",
+      "result": "6 / 6 defects blocked release",
+      "meaning": "The framework caught a missing answer fact, early diagnosis, wrong route, unverified action, unsafe promise, and incomplete handoff."
+    },
+    {
+      "test": "Normal captured voice journey",
+      "result": "1 / 1 passed",
+      "meaning": "The voice pack checked what the system heard, response time, interruption handling, silence, repetition, support action, and final state."
+    },
+    {
+      "test": "Deliberately broken voice journeys",
+      "result": "6 / 6 defects blocked release",
+      "meaning": "The framework caught lost meaning, slow response, talking over the customer, long silence and repetition, the wrong action, and the wrong outcome."
+    }
+  ],
+  "products": [
+    {
+      "name": "Quality Agency",
+      "eval_type": "AI quality reviewers",
+      "status": "mixed",
+      "what_it_checks": "Five narrow QA reviewers grade factual grounding, process, promises, technical diagnosis, and handoff completeness.",
+      "customer_meaning": "It checks whether a polished support answer is still wrong, risky, or too thin to help the next person.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "56 / 56 passed", "note": "Fresh local run."},
+        {"measure": "Raw local Qwen accuracy", "result": "37 / 40", "note": "Fresh 40-case calibration."},
+        {"measure": "Calibrated accuracy", "result": "38 / 40", "note": "One visible rule corrected a false alarm on a refused promise."},
+        {"measure": "Required JSON format", "result": "37 / 40", "note": "Three replies returned malformed or incomplete fields."},
+        {"measure": "False-safe rate", "result": "1 / 16", "note": "The judge waved through one real unsupported promise."}
+      ],
+      "not_run": [],
+      "issues": ["One real unsupported promise passed the judge.", "One good process answer was failed because the judge drifted to the wrong QA question.", "Three of forty responses did not fully match the required JSON format."],
+      "boundary": "Useful local reviewer evidence with visible misses; it should support, not replace, exact checks or human QA."
+    },
+    {
+      "name": "Realtime Support",
+      "eval_type": "How early the system knows enough",
+      "status": "partial",
+      "what_it_checks": "Whether the system has enough evidence to name the cause during a conversation, rather than guessing from the first symptom.",
+      "customer_meaning": "The customer should not be sent down the wrong fix because the agent sounded certain too soon.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "6 / 6 passed", "note": "Fresh local run of scoring and annotation rules."}
+      ],
+      "not_run": ["The 51-call provider evaluation was not regenerated because it needs paid OpenAI and Anthropic calls."],
+      "issues": [],
+      "boundary": "Fresh rule tests plus saved prior call artifacts; not a new model run."
+    },
+    {
+      "name": "Support Copilot Lab",
+      "eval_type": "Case reconstruction and investigation order",
+      "status": "strong",
+      "what_it_checks": "Whether the copilot keeps facts, open questions, rejected explanations, and the next check in order across the case.",
+      "customer_meaning": "A support rep can continue the case without making the customer repeat the story or jumping to the first plausible cause.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "46 / 46 passed", "note": "Fresh local run."},
+        {"measure": "Fixture contracts", "result": "12 / 12 valid", "note": "Fresh local validation."},
+        {"measure": "Deterministic baseline", "result": "318 / 318 checks", "note": "Twelve cases; no early final causes."},
+        {"measure": "Intended process mock", "result": "318 / 318 checks", "note": "Twelve cases; no early final causes."},
+        {"measure": "Old predictive behavior", "result": "275 / 318 checks", "note": "The eval exposed 29 premature final-cause turns."}
+      ],
+      "not_run": ["The opt-in real provider model was not run."],
+      "issues": [],
+      "boundary": "Strong controlled evidence that the checks distinguish careful investigation from early guessing."
+    },
+    {
+      "name": "Support Call Generator",
+      "eval_type": "Practice-case supply",
+      "status": "infrastructure",
+      "what_it_checks": "This project creates versioned practice calls and expected outcomes for other evals; it is not a judge by itself.",
+      "customer_meaning": "It supplies repeatable hard cases so a support system cannot be shown only easy examples.",
+      "evidence": [
+        {"measure": "Generator boundary checks", "result": "4 / 4 passed", "note": "Fresh outputs were written only to temporary folders."}
+      ],
+      "not_run": [],
+      "issues": [],
+      "boundary": "Test-data infrastructure, not independent proof of support quality."
+    },
+    {
+      "name": "Meaning-Preserving Transcript Processing",
+      "eval_type": "Hearing and transcript safety",
+      "status": "mixed",
+      "what_it_checks": "Whether transcript cleanup keeps dates, amounts, negations, corrections, uncertainty, and completed actions unchanged.",
+      "customer_meaning": "The support agent should not act on a cleaned-up transcript that changed what the customer said.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "32 / 32 passed", "note": "Fresh local run."},
+        {"measure": "Verifier corpus", "result": "20 / 20 classifications", "note": "Zero silent meaning-loss failures and zero over-flags."},
+        {"measure": "Held-out verifier", "result": "Acceptance passed", "note": "0/15 silent meaning-loss failures, 1/5 safe cases over-flagged, and 16/20 exact problem classifications."},
+        {"measure": "Full cleanup and verifier pipeline", "result": "8 / 8 safe", "note": "Every cleaned transcript passed the separate verifier."}
+      ],
+      "not_run": [],
+      "issues": ["One safe held-out transcript was blocked.", "The verifier found that four held-out transcripts were unsafe but named the wrong type of meaning problem."],
+      "boundary": "Good local evidence for stopping changed meaning, with a visible false block and imperfect diagnosis; no live audio or production calls."
+    },
+    {
+      "name": "Intent Classifier",
+      "eval_type": "Reason for contact",
+      "status": "mixed",
+      "what_it_checks": "Whether the first customer message is placed in the right support category, such as account access, product help, delivery, billing, or a bug.",
+      "customer_meaning": "A wrong category can send the customer to the wrong team or give the wrong first answer.",
+      "evidence": [
+        {"measure": "Synthetic validation", "result": "89.6–96.5%", "note": "Five local classifier versions looked strong on generated wording."},
+        {"measure": "Natural customer wording", "result": "20–50%", "note": "Each model saw the same ten natural messages; the set is small and directional."},
+        {"measure": "Best natural result", "result": "5 / 10", "note": "ModernBERT v1, SetFit v1 full, and SetFit v2 full tied at 50%."}
+      ],
+      "not_run": [],
+      "issues": ["The 40–70 point synthetic-to-natural gap shows that generated training language is not a trustworthy stand-in for normal customer wording."],
+      "boundary": "The natural set has only ten messages, so it identifies a risk but cannot estimate a production accuracy rate."
+    },
+    {
+      "name": "Signal",
+      "eval_type": "Complaint themes and product signals",
+      "status": "partial",
+      "what_it_checks": "Whether complaint records are grouped, labelled, scored, and turned into product evidence without overstating what the complaints prove.",
+      "customer_meaning": "Repeated customer problems should reach product teams as evidence, not as a vague summary or an invented conclusion.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "51 passed, 1 skipped", "note": "Fresh run in a temporary copy; the live-key smoke test skipped."}
+      ],
+      "not_run": ["The golden model evaluation could not start because OPENROUTER_API_KEY was not set."],
+      "issues": [],
+      "boundary": "The data and offline rules ran; the current provider-based golden evaluation did not."
+    },
+    {
+      "name": "Support State Core",
+      "eval_type": "Routing and safety floor",
+      "status": "strong",
+      "what_it_checks": "Whether the system chooses guide, troubleshoot, or handoff while the strongest risk signal sets the minimum level of caution.",
+      "customer_meaning": "A high-risk case should never become a casual self-service answer because a weaker signal happened to arrive later.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "74 / 74 passed", "note": "Fresh local run."},
+        {"measure": "Benchmark replay", "result": "152 engine arms", "note": "Fourteen scenarios: 28 scored attacks plus 124 smoke replays."},
+        {"measure": "Safety results", "result": "0 / 16 false-safe", "note": "Handoff, lane, risk-floor, and fabrication checks all met their declared thresholds."}
+      ],
+      "not_run": [],
+      "issues": [],
+      "boundary": "Strong rule and adversarial evidence on controlled scenarios; no live support traffic."
+    },
+    {
+      "name": "Handoff Engine",
+      "eval_type": "Handoff completeness and truth",
+      "status": "partial",
+      "what_it_checks": "Whether the next owner gets the customer goal, evidence, work already tried, open questions, and a specific next action.",
+      "customer_meaning": "The customer should not start again with a new agent or wait while engineering reconstructs a thin escalation.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "30 / 30 passed", "note": "Fresh local gate and contract run."}
+      ],
+      "not_run": ["The native 14-case clean-plus-hostile roll-up calls Anthropic for each handoff and was not rerun as a paid provider job."],
+      "issues": [],
+      "boundary": "The deterministic gate is freshly tested; the current model-written handoff set is not."
+    },
+    {
+      "name": "Voice Support",
+      "eval_type": "End-to-end voice support decisions",
+      "status": "mixed",
+      "what_it_checks": "Privacy cleanup, meaning, route, risk, safe wording, support action, visual target, handoff, and final state across saved voice journeys.",
+      "customer_meaning": "The caller should be heard correctly, get the right help, and reach a person safely when the system cannot finish the case.",
+      "evidence": [
+        {"measure": "Full automated suite", "result": "360 passed, 1 failed, 3 skipped", "note": "The speech-worker restart timed out after 30 seconds while two local model evals were also running."},
+        {"measure": "Focused speech-worker retry", "result": "1 / 1 passed", "note": "Passed in 7.12 seconds after the local model workloads stopped."},
+        {"measure": "Deterministic journeys", "result": "11 / 11 completed", "note": "11/11 lanes, 11/11 visual targets, 8/8 handoff gates, and 0/11 false-safe outcomes."},
+        {"measure": "AI QA reviewers", "result": "0 / 55 ran", "note": "Five reviewers across 11 journeys were intentionally off, so the product verdict stayed blocked."}
+      ],
+      "not_run": ["No live phone call, audio stream, production customer, or paid AI reviewer was used."],
+      "issues": ["The full-suite speech-worker timeout was not reproduced in the focused retry, so local resource contention remains the likely cause rather than a confirmed product defect.", "The offline journey runner correctly returned NOT DEMO-SAFE because AI reviewer coverage was missing."],
+      "boundary": "Strong deterministic saved-journey evidence with no fresh AI-reviewer evidence; the one STT timeout cleared on isolated retry."
+    },
+    {
+      "name": "Support Product",
+      "eval_type": "Reusable support runtime and product contract",
+      "status": "strong",
+      "what_it_checks": "Whether a support product can declare its capabilities and journeys, then run through the common support runtime without bypassing safety rules.",
+      "customer_meaning": "Different support products can use the same safety and outcome rules without pretending every app has the same tools.",
+      "evidence": [
+        {"measure": "Runtime tests", "result": "86 / 86 passed", "note": "Fresh local run."},
+        {"measure": "Product-profile tests", "result": "38 / 38 passed", "note": "Fresh local contract run."},
+        {"measure": "Starter adapter conformance", "result": "12 / 12 passed", "note": "Fresh local connector check."}
+      ],
+      "not_run": [],
+      "issues": [],
+      "boundary": "Strong local platform and connector contracts; not a live customer-support deployment."
+    },
+    {
+      "name": "Support Binder",
+      "eval_type": "Cross-product proof and version seal",
+      "status": "blocked",
+      "what_it_checks": "Whether the exact tested versions of the support components are the versions used together in one recorded journey.",
+      "customer_meaning": "A green result should not quietly combine a new decision engine with an old handoff test or an unreviewed connector.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "82 / 82 passed", "note": "Fresh local run."},
+        {"measure": "Current sealed journey", "result": "BLOCKED", "note": "Component commits and tags do not match the recorded seal; Support State Core is also dirty."}
+      ],
+      "not_run": [],
+      "issues": ["The version seal is stale, so the Binder correctly refused to certify the current cross-product journey.", "The 11-case roll-up also includes handoff anchors that the current Copilot fixture set does not contain."],
+      "boundary": "The Binder's tests are healthy, but its present cross-product proof is not valid."
+    },
+    {
+      "name": "Screen-Aware Support",
+      "eval_type": "On-screen support guidance",
+      "status": "strong",
+      "what_it_checks": "Whether the system identifies a safe visible control, handles hidden or ambiguous targets, and refuses to claim it clicked anything.",
+      "customer_meaning": "The customer should be pointed to the right place on screen without the assistant inventing a button or taking an action it cannot take.",
+      "evidence": [
+        {"measure": "Python tests", "result": "367 / 367 passed", "note": "Fresh run in a temporary copy."},
+        {"measure": "Browser tests", "result": "27 / 27 passed", "note": "Fresh Node run."},
+        {"measure": "Contract fixtures", "result": "14 / 14 passed", "note": "Fresh conformance run."},
+        {"measure": "Controlled app eval", "result": "6 / 6 scored", "note": "All declared metrics passed across app fixtures."}
+      ],
+      "not_run": ["The full-screen provider eval was not run because it requires an external screenshot provider and key."],
+      "issues": [],
+      "boundary": "Strong controlled app evidence; no production screen session and no live actuation."
+    },
+    {
+      "name": "Internal Desk",
+      "eval_type": "Support desk workflow",
+      "status": "strong",
+      "what_it_checks": "Whether a support case can move through resolution, engineering escalation, or an honest block using a desk-style workflow.",
+      "customer_meaning": "The ticket should reach a real next state with clear ownership, rather than ending as a plausible reply with no operational follow-through.",
+      "evidence": [
+        {"measure": "Automated tests", "result": "304 / 304 passed", "note": "Fresh local run."}
+      ],
+      "not_run": ["Live Zammad acceptance was not repeated because it changes helpdesk records."],
+      "issues": [],
+      "boundary": "Strong local workflow coverage; no fresh live-desk or customer evidence."
+    },
+    {
+      "name": "Muesli Support Integration",
+      "eval_type": "Second-product connector",
+      "status": "strong",
+      "what_it_checks": "Whether a different desktop product can declare support capabilities and connect to the shared runtime through the same contract.",
+      "customer_meaning": "The support framework is not tied only to one demo shop or to refunds; it can support normal product-help and technical-support flows in another app.",
+      "evidence": [
+        {"measure": "Application tests", "result": "21 / 21 passed", "note": "Fresh local Node run."},
+        {"measure": "Adapter and profile conformance", "result": "14 / 14 passed", "note": "Fresh local connector run."}
+      ],
+      "not_run": [],
+      "issues": [],
+      "boundary": "Good second-product contract evidence; still local and non-customer-facing."
+    }
+  ]
+}

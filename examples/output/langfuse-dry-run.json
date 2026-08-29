@@ -1,0 +1,608 @@
+{
+  "batch": [
+    {
+      "body": {
+        "id": "83ed5e8f-3aca-5c69-a6b9-791da39ce050",
+        "metadata": {
+          "completed": true,
+          "journey_number": 1,
+          "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+          "release_passed": true,
+          "scenario_ref": "83ed5e8f-3aca-5c69-a6b9-791da39ce050",
+          "status": "pass",
+          "support_evals": true
+        },
+        "name": "support-eval:journey-1",
+        "output": {
+          "error_present": false,
+          "evaluators": [
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 1,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 2,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 2,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 4,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 3,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 2,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 4,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 5,
+              "status": "pass"
+            }
+          ],
+          "status": "pass"
+        },
+        "timestamp": "2026-08-29T07:16:33+00:00"
+      },
+      "id": "83ed5e8f-3aca-5c69-a6b9-791da39ce050",
+      "type": "trace-create"
+    },
+    {
+      "body": {
+        "id": "2692727b-d0a4-5693-bb2d-60b182624806",
+        "metadata": {
+          "completed": true,
+          "journey_number": 2,
+          "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+          "release_passed": true,
+          "scenario_ref": "2692727b-d0a4-5693-bb2d-60b182624806",
+          "status": "pass",
+          "support_evals": true
+        },
+        "name": "support-eval:journey-2",
+        "output": {
+          "error_present": false,
+          "evaluators": [
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 1,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 2,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 4,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 3,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 4,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 2,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 5,
+              "status": "pass"
+            }
+          ],
+          "status": "pass"
+        },
+        "timestamp": "2026-08-29T07:16:33+00:00"
+      },
+      "id": "2692727b-d0a4-5693-bb2d-60b182624806",
+      "type": "trace-create"
+    },
+    {
+      "body": {
+        "id": "58807cc7-7b45-554b-9e45-ff06e7d013be",
+        "metadata": {
+          "completed": true,
+          "journey_number": 3,
+          "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+          "release_passed": true,
+          "scenario_ref": "58807cc7-7b45-554b-9e45-ff06e7d013be",
+          "status": "pass",
+          "support_evals": true
+        },
+        "name": "support-eval:journey-3",
+        "output": {
+          "error_present": false,
+          "evaluators": [
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 1,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 2,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 4,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 3,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 4,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 5,
+              "status": "pass"
+            }
+          ],
+          "status": "pass"
+        },
+        "timestamp": "2026-08-29T07:16:33+00:00"
+      },
+      "id": "58807cc7-7b45-554b-9e45-ff06e7d013be",
+      "type": "trace-create"
+    },
+    {
+      "body": {
+        "id": "aa556747-b2ad-5963-aedd-55fee5fcfe51",
+        "metadata": {
+          "completed": true,
+          "journey_number": 4,
+          "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+          "release_passed": true,
+          "scenario_ref": "aa556747-b2ad-5963-aedd-55fee5fcfe51",
+          "status": "pass",
+          "support_evals": true
+        },
+        "name": "support-eval:journey-4",
+        "output": {
+          "error_present": false,
+          "evaluators": [
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 1,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 2,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 4,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 3,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 2,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 4,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 5,
+              "status": "pass"
+            }
+          ],
+          "status": "pass"
+        },
+        "timestamp": "2026-08-29T07:16:33+00:00"
+      },
+      "id": "aa556747-b2ad-5963-aedd-55fee5fcfe51",
+      "type": "trace-create"
+    },
+    {
+      "body": {
+        "id": "37757049-3d4a-518d-b383-8df50c952087",
+        "metadata": {
+          "completed": true,
+          "journey_number": 5,
+          "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+          "release_passed": true,
+          "scenario_ref": "37757049-3d4a-518d-b383-8df50c952087",
+          "status": "pass",
+          "support_evals": true
+        },
+        "name": "support-eval:journey-5",
+        "output": {
+          "error_present": false,
+          "evaluators": [
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 1,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 2,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 2,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 2,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 3,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                },
+                {
+                  "check_number": 4,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 3,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 4,
+              "status": "pass"
+            },
+            {
+              "checks": [
+                {
+                  "check_number": 1,
+                  "error_present": false,
+                  "evidence_count": 1,
+                  "status": "pass"
+                }
+              ],
+              "evaluator_number": 5,
+              "status": "pass"
+            }
+          ],
+          "status": "pass"
+        },
+        "timestamp": "2026-08-29T07:16:33+00:00"
+      },
+      "id": "37757049-3d4a-518d-b383-8df50c952087",
+      "type": "trace-create"
+    }
+  ],
+  "metadata": {
+    "profile_ref": "f3ecdcda-0be4-52ed-b0e6-47d92fd068ca",
+    "source": "support-evals"
+  }
+}

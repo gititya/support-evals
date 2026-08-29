@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "support-evals"
+version = "0.1.0"
+description = "Product-neutral evaluation framework for complete customer-support journeys"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+support-evals = "support_evals.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["support_evals*"]

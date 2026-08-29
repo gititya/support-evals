@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support Evals — voice-strict</title>
+  <style>
+    :root { color-scheme: dark; --bg:#171411; --surface:#211d19; --surface-2:#2b2520; --text:#f3eee7; --muted:#c6bbae; --line:#554a40; --good:#8ed3a9; --bad:#ff9c8a; --warn:#f0cc7a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1100px; margin:0 auto; padding:32px 20px 64px; }
+    h1,h2,h3 { line-height:1.2; } h1 { font-size:clamp(1.8rem,4vw,3rem); margin:0; } h2 { margin-top:2rem; }
+    .eyebrow { color:var(--muted); font:0.78rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase; }
+    .lede { color:var(--muted); max-width:70ch; }
+    .verdict { display:inline-block; border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-weight:700; letter-spacing:.04em; }
+    .verdict.pass { color:var(--good); border-color:var(--good); } .verdict.unsafe { color:var(--bad); border-color:var(--bad); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:10px; margin:22px 0; }
+    .metric, article { background:var(--surface); border:1px solid var(--line); border-radius:8px; }
+    .metric { padding:14px; } .metric strong { display:block; font-size:1.5rem; } .metric span { color:var(--muted); }
+    article { padding:18px; margin:12px 0; } article header { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px; }
+    .status { font:700 .8rem ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; }
+    .status-pass { color:var(--good); } .status-fail,.status-unsafe,.status-error { color:var(--bad); } .status-abstention { color:var(--warn); }
+    .meta,.muted { color:var(--muted); } .meta { font-size:.92rem; }
+    ul { padding-left:1.25rem; } li { margin:.35rem 0; } code { color:var(--warn); }
+    details { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; } summary { cursor:pointer; color:var(--muted); }
+    .check { border-left:3px solid var(--line); padding-left:12px; margin:14px 0; } .check h4 { margin:.1rem 0; }
+    .check p { margin:.25rem 0; } .label { color:var(--muted); font-size:.85rem; }
+    .notice { color:var(--muted); font-size:.92rem; }
+    a { color:var(--warn); } :focus-visible { outline:3px solid var(--warn); outline-offset:3px; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Support Evals · local evidence report</p>
+  <h1>voice-strict</h1>
+  <p><span class="verdict unsafe">DO NOT RELEASE</span></p>
+  <p class="lede">This report shows how the tested support agent handled complete customer journeys. It is based on a local run, not production customer traffic.</p>
+
+  <section aria-labelledby="summary"><h2 id="summary">Run summary</h2>
+    <div class="grid">
+      <div class="metric"><strong>1</strong><span>Requested journeys</span><br><span>denominator</span></div>
+      <div class="metric"><strong>0 / 1</strong><span>Passed</span><br><span>0.0% pass rate</span></div>
+      <div class="metric"><strong>1</strong><span>Failed</span><br><span>journeys</span></div>
+      <div class="metric"><strong>0</strong><span>Unsafe</span><br><span>journeys</span></div>
+      <div class="metric"><strong>0</strong><span>Errors</span><br><span>execution or evaluation</span></div>
+      <div class="metric"><strong>0</strong><span>Abstentions</span><br><span>not judged</span></div>
+    </div>
+    <p class="notice">Every requested journey remains in the denominator, including journeys that did not complete or produced an error. One journey can appear in more than one risk count when it contains several kinds of problem.</p>
+  </section>
+
+  <section aria-labelledby="gate"><h2 id="gate">Release decision</h2><ul><li>pass rate 0.0% is below 100.0%</li>
+<li>1 failed journey(s) exceeds limit 0</li></ul></section>
+
+  <section aria-labelledby="risks"><h2 id="risks">Customer risks and failures</h2><ul><li>Camera offline after Wi-Fi password change · voice.silence_budget: Dead air makes callers unsure whether the agent is still working and increases hang-ups.</li>
+<li>Camera offline after Wi-Fi password change · voice.repeated_customer_information: Repeated questions increase effort and make the caller feel that the support agent is not listening.</li></ul></section>
+
+  <section aria-labelledby="journeys"><h2 id="journeys">Customer journeys</h2><article>
+  <header><h3>Camera offline after Wi-Fi password change</h3><span class="status status-fail">FAIL</span></header>
+  <p class="meta">technical-support · case <code>voice-camera-wifi-correction</code> · completed: True</p>
+  <div class="check"><h4>voice.critical_meaning <span class="status status-pass">PASS</span></h4><p>The agent preserved the declared customer facts and negations.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: {&#x27;entities&#x27;: {&#x27;account_id&#x27;: &#x27;A-204&#x27;, &#x27;incident_date&#x27;: &#x27;Friday&#x27;}, &#x27;negations&#x27;: [&#x27;not Thursday&#x27;]}</li><li>observed: {&#x27;entities&#x27;: {&#x27;account_id&#x27;: &#x27;A-204&#x27;, &#x27;incident_date&#x27;: &#x27;Friday&#x27;}, &#x27;negations&#x27;: [&#x27;not thursday&#x27;]}</li></ul></div><div class="check"><h4>voice.response_latency <span class="status status-pass">PASS</span></h4><p>All recorded responses stayed within 1200 ms.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: 1200.0</li><li>observed: 500.0</li></ul></div><div class="check"><h4>voice.interruption_yield <span class="status status-pass">PASS</span></h4><p>No customer interruption occurred in this trace.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: True</li><li>observed: False</li></ul></div><div class="check"><h4>voice.silence_budget <span class="status status-fail">FAIL</span></h4><p>Silence reached 4000 ms, over the 2500 ms budget.</p><p><span class="label">Customer effect:</span> Dead air makes callers unsure whether the agent is still working and increases hang-ups.</p><p class="label">Evidence</p><ul><li>expected: 2500.0</li><li>observed: 4000.0</li></ul></div><div class="check"><h4>voice.repeated_customer_information <span class="status status-fail">FAIL</span></h4><p>The caller repeated information 1 time(s), over the limit of 0.</p><p><span class="label">Customer effect:</span> Repeated questions increase effort and make the caller feel that the support agent is not listening.</p><p class="label">Evidence</p><ul><li>expected: 0</li><li>observed: 1.0</li></ul></div><div class="check"><h4>voice.support_action <span class="status status-pass">PASS</span></h4><p>The expected support action &#x27;reconnect_camera&#x27; was recorded.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: {&#x27;name&#x27;: &#x27;reconnect_camera&#x27;, &#x27;success&#x27;: True}</li><li>observed: [{&#x27;name&#x27;: &#x27;reconnect_camera&#x27;, &#x27;success&#x27;: True}]</li></ul></div><div class="check"><h4>voice.final_state <span class="status status-pass">PASS</span></h4><p>The final support state matched the expected outcome.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: {&#x27;camera_status&#x27;: &#x27;online&#x27;}</li><li>observed: {&#x27;camera_status&#x27;: &#x27;online&#x27;}</li></ul></div><div class="check"><h4>voice.safe_handoff <span class="status status-pass">PASS</span></h4><p>No handoff was required for this resolved journey.</p><p><span class="label">Customer effect:</span> No customer effect identified.</p><p class="label">Evidence</p><ul><li>expected: False</li><li>observed: False</li></ul></div>
+</article></section>
+
+  <p class="notice">Evidence source: local Support Evals run. Validation level: production-shaped and locally tested; not production-validated.</p>
+</main>
+</body>
+</html>

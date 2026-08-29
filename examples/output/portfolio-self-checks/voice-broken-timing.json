@@ -1,0 +1,268 @@
+{
+  "counts": {
+    "abstention": 1,
+    "completed": 1,
+    "error": 0,
+    "failed": 1,
+    "passed": 0,
+    "requested": 1,
+    "unsafe": 0
+  },
+  "evidence": {
+    "source": "local Support Evals run",
+    "validation": "production-shaped and locally tested; not production-validated"
+  },
+  "finished_at": "2026-08-29T09:49:46+00:00",
+  "journeys": [
+    {
+      "completed": true,
+      "error": null,
+      "evaluators": [
+        {
+          "checks": [
+            {
+              "check_id": "voice.critical_meaning",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: {'entities': {'account_id': 'A-204', 'incident_date': 'Friday'}, 'negations': ['not Thursday']}",
+                "observed: {'entities': {'account_id': 'A-204', 'incident_date': 'Friday'}, 'negations': ['not thursday']}"
+              ],
+              "expected": {
+                "entities": {
+                  "account_id": "A-204",
+                  "incident_date": "Friday"
+                },
+                "negations": [
+                  "not Thursday"
+                ]
+              },
+              "observed": {
+                "entities": {
+                  "account_id": "A-204",
+                  "incident_date": "Friday"
+                },
+                "negations": [
+                  "not thursday"
+                ]
+              },
+              "status": "pass",
+              "summary": "The agent preserved the declared customer facts and negations."
+            },
+            {
+              "check_id": "voice.response_latency",
+              "customer_effect": "Long gaps make callers think the line failed and can cause them to repeat themselves or hang up.",
+              "error": null,
+              "evidence": [
+                "expected: 1200.0",
+                "observed: 2000.0"
+              ],
+              "expected": 1200.0,
+              "observed": 2000.0,
+              "status": "fail",
+              "summary": "The slowest response took 2000 ms, over the 1200 ms budget."
+            },
+            {
+              "check_id": "voice.interruption_yield",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: True",
+                "observed: {'interruptions': 1}"
+              ],
+              "expected": true,
+              "observed": {
+                "interruptions": 1
+              },
+              "status": "pass",
+              "summary": "The agent yielded when the caller interrupted."
+            },
+            {
+              "check_id": "voice.silence_budget",
+              "customer_effect": "The team cannot tell whether callers experienced an unexplained dead-air gap.",
+              "error": null,
+              "evidence": [],
+              "expected": null,
+              "observed": null,
+              "status": "abstention",
+              "summary": "Silence duration was not recorded in the captured trace."
+            },
+            {
+              "check_id": "voice.repeated_customer_information",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: 0",
+                "observed: 0.0"
+              ],
+              "expected": 0,
+              "observed": 0.0,
+              "status": "pass",
+              "summary": "The caller did not exceed the 0-repeat limit."
+            },
+            {
+              "check_id": "voice.support_action",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: {'name': 'reconnect_camera', 'success': True}",
+                "observed: [{'name': 'reconnect_camera', 'success': True}]"
+              ],
+              "expected": {
+                "name": "reconnect_camera",
+                "success": true
+              },
+              "observed": [
+                {
+                  "name": "reconnect_camera",
+                  "success": true
+                }
+              ],
+              "status": "pass",
+              "summary": "The expected support action 'reconnect_camera' was recorded."
+            },
+            {
+              "check_id": "voice.final_state",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: {'camera_status': 'online'}",
+                "observed: {'camera_status': 'online'}"
+              ],
+              "expected": {
+                "camera_status": "online"
+              },
+              "observed": {
+                "camera_status": "online"
+              },
+              "status": "pass",
+              "summary": "The final support state matched the expected outcome."
+            },
+            {
+              "check_id": "voice.safe_handoff",
+              "customer_effect": "No customer effect identified.",
+              "error": null,
+              "evidence": [
+                "expected: False",
+                "observed: False"
+              ],
+              "expected": false,
+              "observed": false,
+              "status": "pass",
+              "summary": "No handoff was required for this resolved journey."
+            }
+          ],
+          "evaluator_id": "voice",
+          "status": "fail",
+          "summary": "Voice journey needs review; evidence is a captured trace, not a live call."
+        }
+      ],
+      "scenario": {
+        "category": "technical-support",
+        "context": {},
+        "expected": {
+          "voice": {
+            "critical_entities": {
+              "account_id": "A-204",
+              "incident_date": "Friday"
+            },
+            "critical_negations": [
+              "not Thursday"
+            ],
+            "expected_action": {
+              "name": "reconnect_camera",
+              "success": true
+            },
+            "expected_final_state": {
+              "camera_status": "online"
+            },
+            "handoff_required": false,
+            "max_customer_repetitions": 0,
+            "max_response_latency_ms": 1200,
+            "max_silence_ms": 2500,
+            "require_interruption_yield": true
+          }
+        },
+        "id": "voice-camera-wifi-correction",
+        "metadata": {},
+        "opening": "My camera stopped working after I changed Wi-Fi.",
+        "schema_version": "1.0",
+        "tags": [],
+        "title": "Camera offline after Wi-Fi password change"
+      },
+      "status": "fail",
+      "trace": {
+        "events": [
+          {
+            "actor": "customer",
+            "content": "It stopped Friday, not Thursday. Account A-204.",
+            "data": {
+              "end_ms": 1000,
+              "entities": {
+                "account_id": "A-204",
+                "incident_date": "Friday"
+              },
+              "negations": [
+                "not Thursday"
+              ]
+            },
+            "kind": "speech_end",
+            "sequence": 1
+          },
+          {
+            "actor": "agent",
+            "content": "I have Friday for account A-204.",
+            "data": {
+              "entities": {
+                "account_id": "A-204",
+                "incident_date": "Friday"
+              },
+              "latency_ms": 2000,
+              "negations": [
+                "not Thursday"
+              ],
+              "start_ms": 3000
+            },
+            "kind": "speech_start",
+            "sequence": 2
+          },
+          {
+            "actor": "customer",
+            "content": "It is not a hardware failure.",
+            "data": {
+              "yielded": true
+            },
+            "kind": "interruption",
+            "sequence": 3
+          },
+          {
+            "actor": "agent",
+            "content": "reconnect_camera",
+            "data": {
+              "name": "reconnect_camera",
+              "success": true
+            },
+            "kind": "tool_call",
+            "sequence": 4
+          }
+        ],
+        "final_state": {
+          "camera_status": "online"
+        },
+        "metadata": {
+          "customer_repetitions": 0
+        }
+      }
+    }
+  ],
+  "profile": "voice-strict",
+  "release_gate": {
+    "passed": false,
+    "reasons": [
+      "pass rate 0.0% is below 100.0%",
+      "1 failed journey(s) exceeds limit 0",
+      "1 abstention(s) exceeds limit 0"
+    ]
+  },
+  "started_at": "2026-08-29T09:49:46+00:00"
+}

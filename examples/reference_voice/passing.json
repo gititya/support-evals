@@ -1,0 +1,36 @@
+{
+  "scenario": {
+    "id": "voice-camera-wifi-correction",
+    "title": "Camera offline after Wi-Fi password change",
+    "opening": "My camera stopped working after I changed Wi-Fi.",
+    "category": "technical-support",
+    "expected": {
+      "voice": {
+        "critical_entities": {"account_id": "A-204", "incident_date": "Friday"},
+        "critical_negations": ["not Thursday", "not a hardware failure"],
+        "max_response_latency_ms": 1200,
+        "max_silence_ms": 2500,
+        "max_customer_repetitions": 0,
+        "expected_action": {"name": "reconnect_camera", "success": true},
+        "expected_final_state": {"camera_status": "online", "wifi_credentials_updated": true},
+        "require_interruption_yield": true,
+        "handoff_required": false
+      }
+    }
+  },
+  "trace": {
+    "events": [
+      {"sequence": 1, "actor": "customer", "kind": "speech_end", "content": "My camera stopped working after I changed Wi-Fi on Friday, not Thursday. The account is A-204.", "data": {"end_ms": 1000, "entities": {"account_id": "A-204", "incident_date": "Friday"}, "negations": ["not Thursday"]}},
+      {"sequence": 2, "actor": "agent", "kind": "speech_start", "content": "I understand the camera went offline on Friday for account A-204.", "data": {"start_ms": 1650, "latency_ms": 650, "entities": {"account_id": "A-204", "incident_date": "Friday"}, "negations": ["not Thursday"]}},
+      {"sequence": 3, "actor": "agent", "kind": "speech", "content": "It may be a hardware failure, so I will replace it.", "data": {"entities": {"account_id": "A-204"}}},
+      {"sequence": 4, "actor": "customer", "kind": "interruption", "content": "No, it is not a hardware failure. I changed the Wi-Fi password.", "data": {"yielded": true}},
+      {"sequence": 5, "actor": "agent", "kind": "speech_end", "content": "Thanks for correcting me. I have Friday, not Thursday, and this is not a hardware failure. I will reconnect the camera to the new Wi-Fi.", "data": {"entities": {"account_id": "A-204", "incident_date": "Friday"}, "negations": ["not Thursday", "not a hardware failure"]}},
+      {"sequence": 6, "actor": "agent", "kind": "silence", "content": "", "data": {"duration_ms": 700}},
+      {"sequence": 7, "actor": "agent", "kind": "tool_call", "content": "reconnect_camera", "data": {"name": "reconnect_camera", "success": true}},
+      {"sequence": 8, "actor": "agent", "kind": "speech_end", "content": "The camera is back online and the new Wi-Fi details are saved.", "data": {"latency_ms": 800}},
+      {"sequence": 9, "actor": "customer", "kind": "message", "content": "Yes, I can see the live view again."}
+    ],
+    "final_state": {"camera_status": "online", "wifi_credentials_updated": true},
+    "metadata": {"customer_repetitions": 0, "source": "captured-reference"}
+  }
+}

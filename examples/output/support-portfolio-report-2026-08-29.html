@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What your support evals prove today</title>
+  <style>
+    :root { color-scheme:dark; --bg:#171411; --surface:#211d19; --surface2:#2b2520; --text:#f3eee7; --muted:#c6bbae; --line:#554a40; --accent:#f0cc7a; --good:#8ed3a9; --bad:#ff9c8a; --info:#9ec7df; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1180px; margin:0 auto; padding:32px 20px 72px; }
+    h1,h2,h3 { line-height:1.18; } h1 { margin:.25rem 0 .75rem; font-size:clamp(2rem,5vw,3.8rem); max-width:18ch; } h2 { margin-top:0; }
+    .eyebrow,.status,.tab { font:700 .78rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase; }
+    .eyebrow,.muted,.note { color:var(--muted); } .lede { color:var(--muted); max-width:78ch; font-size:1.08rem; }
+    .verdict { display:inline-block; margin:14px 0; padding:10px 14px; border:1px solid var(--accent); border-radius:8px; color:var(--accent); font-weight:750; }
+    .tabs { display:flex; flex-wrap:wrap; gap:8px; margin:30px 0 20px; border-bottom:1px solid var(--line); padding-bottom:12px; }
+    .tab { appearance:none; border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--muted); background:var(--surface); cursor:pointer; }
+    .tab[aria-selected="true"] { color:var(--bg); border-color:var(--accent); background:var(--accent); }
+    .panel[hidden] { display:none; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin:20px 0 28px; }
+    .metric,.card,.callout,.simple-card { background:var(--surface); border:1px solid var(--line); border-radius:8px; }
+    .metric { padding:14px; } .metric strong { display:block; font-size:1.55rem; } .metric span { color:var(--muted); }
+    .card { padding:18px; margin:12px 0; } .card header { display:flex; gap:12px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; }
+    .card h3 { margin:0; } .card h4 { margin:1.2rem 0 .3rem; } .card p { max-width:90ch; }
+    .status { white-space:nowrap; } .status-strong { color:var(--good); } .status-mixed,.status-partial { color:var(--accent); } .status-blocked { color:var(--bad); } .status-infrastructure { color:var(--info); }
+    .evidence { width:100%; border-collapse:collapse; margin-top:12px; } .evidence th,.evidence td { padding:10px 8px; text-align:left; vertical-align:top; border-top:1px solid var(--line); } .evidence th { color:var(--muted); font-size:.86rem; }
+    .callout { padding:18px; margin:16px 0; border-left:4px solid var(--accent); }
+    .short-answer { font-size:1.18rem; max-width:72ch; }
+    .simple-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:18px 0 30px; }
+    .simple-card { padding:20px; } .simple-card h3 { margin:0 0 8px; font-size:1.05rem; } .simple-card p { margin:0; color:var(--muted); }
+    ul { padding-left:1.25rem; } li { margin:.4rem 0; } code { color:var(--accent); }
+    a { color:var(--accent); } :focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+    @media (max-width:650px) { .evidence,.evidence tbody,.evidence tr,.evidence td { display:block; } .evidence thead { display:none; } .evidence td { border-top:0; padding:3px 0; } .evidence tr { border-top:1px solid var(--line); padding:10px 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Support Evals · cross-product run</p>
+  <h1>What your support evals prove today</h1>
+  <p class="lede">I ran the support tests across your projects. You have built a useful way to check support AI before customers use it. Some parts work well. Some parts still make mistakes. None of this has been tested with real customers yet.</p>
+  <p><span class="verdict">GOOD LOCAL TEST LAB — NOT YET PROVEN WITH REAL CUSTOMERS</span></p>
+  <p class="note">Run date: 29 August 2026 · Evidence level: fresh local runs on synthetic, saved, or controlled data; no production customer traffic</p>
+
+  <nav class="tabs" aria-label="Report sections">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="summary" id="tab-summary">The answer</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="products" id="tab-products">Full evidence · optional</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="framework" id="tab-framework">How it works</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="limits" id="tab-limits">What is missing</button>
+  </nav>
+
+  <section class="panel" role="tabpanel" id="summary" aria-labelledby="tab-summary">
+    <h2>The short answer</h2>
+    <div class="callout short-answer"><strong>You have built a good support QA test lab.</strong><p>It can catch many bad support behaviours before release. It is not yet a proven live QA system because you do not have real customer traffic or a live support operation. That is an evidence gap, not a personal failure.</p></div>
+    <h2>What I found</h2>
+    <div class="simple-grid"><article class="simple-card"><h3>What you built</h3><p>A repeatable way to give a support AI a customer problem, watch what it does, check the result, and save the proof.</p></article><article class="simple-card"><h3>What works well</h3><p>Your tests are good at catching wrong routing, early guessing, unsafe promises, actions that were never confirmed, and weak handoffs.</p></article><article class="simple-card"><h3>What is weak</h3><p>The intent classifier struggles with normal customer language. The AI quality reviewers still miss some bad answers. The combined product proof is out of date.</p></article><article class="simple-card"><h3>What you can honestly say</h3><p>You built and tested a support-evaluation method across chat, technical support, handoffs, voice, screen guidance, and support operations. Do not call it production-proven yet.</p></article></div>
+    <h2>What I would do next</h2>
+    <ol><li>Keep the framework. The basic design is sound.</li><li>Add 25 to 50 naturally worded customer cases, especially for technical help and account access. You do not need a live employer or real customer data to do this.</li><li>Connect one of your non-live support products to the framework and show one clean report containing normal cases, hard cases, and deliberate failures.</li></ol>
+    <details><summary>Show the run size and detailed findings</summary>
+      <div class="grid">
+        <div class="metric"><strong>15</strong><span>Support areas reviewed</span></div>
+        <div class="metric"><strong>1,686 attempts</strong><span>Fresh automated checks</span></div>
+        <div class="metric"><strong>4</strong><span>Works, but has problems</span></div><div class="metric"><strong>3</strong><span>Only part was tested</span></div><div class="metric"><strong>6</strong><span>Works well locally</span></div><div class="metric"><strong>1</strong><span>Supplies test cases</span></div><div class="metric"><strong>1</strong><span>Could not be certified</span></div>
+      </div>
+      <p class="muted">These are different kinds of tests, so they do not form one pass rate.</p>
+      <ul><li>The shared framework passed all 44 of its own tests, passed five normal chat journeys, and blocked all 12 deliberate chat and voice defects.</li><li>The strongest common pattern is evidence-timed support: the system should ask or act only when the case record supports that step, then verify what changed before it claims success.</li><li>The intent classifier is the sharpest quality warning. Its synthetic accuracy is about 90–96%, but the five tested model versions scored only 20–50% on ten naturally worded customer messages.</li><li>The local QA judges reached 38/40 calibrated accuracy, but one real unsafe promise still passed and three responses did not match the required JSON format.</li><li>Voice Support handled all 11 saved journeys correctly in deterministic mode, but its release verdict stayed blocked because the five AI QA reviewers did not run. One speech-worker restart test timed out in the full suite, then passed on a focused retry.</li><li>Support Binder&#x27;s 82 tests passed, but its cross-product seal rejected the run because several checked-out components no longer match the recorded proof commits and tags.</li><li>No result here comes from real customer traffic. That is a limit on the claim, not proof that the framework cannot be used by a live support team.</li></ul>
+    </details>
+  </section>
+
+  <section class="panel" role="tabpanel" id="products" aria-labelledby="tab-products" hidden>
+    <h2>The detailed evidence</h2>
+    <p class="muted">You can skip this tab on the first read. It keeps the exact results for anyone who wants to check how each conclusion was reached.</p>
+    <article class="card">
+  <header><div><p class="eyebrow">AI quality reviewers</p><h3>Quality Agency</h3></div><span class="status status-mixed">Works, but has problems</span></header>
+  <p><strong>What it checks:</strong> Five narrow QA reviewers grade factual grounding, process, promises, technical diagnosis, and handoff completeness.</p>
+  <p><strong>Customer meaning:</strong> It checks whether a polished support answer is still wrong, risky, or too thin to help the next person.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>56 / 56 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Raw local Qwen accuracy</td><td><strong>37 / 40</strong></td><td>Fresh 40-case calibration.</td></tr><tr><td>Calibrated accuracy</td><td><strong>38 / 40</strong></td><td>One visible rule corrected a false alarm on a refused promise.</td></tr><tr><td>Required JSON format</td><td><strong>37 / 40</strong></td><td>Three replies returned malformed or incomplete fields.</td></tr><tr><td>False-safe rate</td><td><strong>1 / 16</strong></td><td>The judge waved through one real unsupported promise.</td></tr></tbody></table>
+  <h4>Problems found</h4><ul><li>One real unsupported promise passed the judge.</li><li>One good process answer was failed because the judge drifted to the wrong QA question.</li><li>Three of forty responses did not fully match the required JSON format.</li></ul>
+  <p class="note">Claim limit: Useful local reviewer evidence with visible misses; it should support, not replace, exact checks or human QA.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">How early the system knows enough</p><h3>Realtime Support</h3></div><span class="status status-partial">Only part was tested</span></header>
+  <p><strong>What it checks:</strong> Whether the system has enough evidence to name the cause during a conversation, rather than guessing from the first symptom.</p>
+  <p><strong>Customer meaning:</strong> The customer should not be sent down the wrong fix because the agent sounded certain too soon.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>6 / 6 passed</strong></td><td>Fresh local run of scoring and annotation rules.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>The 51-call provider evaluation was not regenerated because it needs paid OpenAI and Anthropic calls.</li></ul>
+  <p class="note">Claim limit: Fresh rule tests plus saved prior call artifacts; not a new model run.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Case reconstruction and investigation order</p><h3>Support Copilot Lab</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether the copilot keeps facts, open questions, rejected explanations, and the next check in order across the case.</p>
+  <p><strong>Customer meaning:</strong> A support rep can continue the case without making the customer repeat the story or jumping to the first plausible cause.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>46 / 46 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Fixture contracts</td><td><strong>12 / 12 valid</strong></td><td>Fresh local validation.</td></tr><tr><td>Deterministic baseline</td><td><strong>318 / 318 checks</strong></td><td>Twelve cases; no early final causes.</td></tr><tr><td>Intended process mock</td><td><strong>318 / 318 checks</strong></td><td>Twelve cases; no early final causes.</td></tr><tr><td>Old predictive behavior</td><td><strong>275 / 318 checks</strong></td><td>The eval exposed 29 premature final-cause turns.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>The opt-in real provider model was not run.</li></ul>
+  <p class="note">Claim limit: Strong controlled evidence that the checks distinguish careful investigation from early guessing.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Practice-case supply</p><h3>Support Call Generator</h3></div><span class="status status-infrastructure">Supplies test cases</span></header>
+  <p><strong>What it checks:</strong> This project creates versioned practice calls and expected outcomes for other evals; it is not a judge by itself.</p>
+  <p><strong>Customer meaning:</strong> It supplies repeatable hard cases so a support system cannot be shown only easy examples.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Generator boundary checks</td><td><strong>4 / 4 passed</strong></td><td>Fresh outputs were written only to temporary folders.</td></tr></tbody></table>
+  <p class="note">Claim limit: Test-data infrastructure, not independent proof of support quality.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Hearing and transcript safety</p><h3>Meaning-Preserving Transcript Processing</h3></div><span class="status status-mixed">Works, but has problems</span></header>
+  <p><strong>What it checks:</strong> Whether transcript cleanup keeps dates, amounts, negations, corrections, uncertainty, and completed actions unchanged.</p>
+  <p><strong>Customer meaning:</strong> The support agent should not act on a cleaned-up transcript that changed what the customer said.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>32 / 32 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Verifier corpus</td><td><strong>20 / 20 classifications</strong></td><td>Zero silent meaning-loss failures and zero over-flags.</td></tr><tr><td>Held-out verifier</td><td><strong>Acceptance passed</strong></td><td>0/15 silent meaning-loss failures, 1/5 safe cases over-flagged, and 16/20 exact problem classifications.</td></tr><tr><td>Full cleanup and verifier pipeline</td><td><strong>8 / 8 safe</strong></td><td>Every cleaned transcript passed the separate verifier.</td></tr></tbody></table>
+  <h4>Problems found</h4><ul><li>One safe held-out transcript was blocked.</li><li>The verifier found that four held-out transcripts were unsafe but named the wrong type of meaning problem.</li></ul>
+  <p class="note">Claim limit: Good local evidence for stopping changed meaning, with a visible false block and imperfect diagnosis; no live audio or production calls.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Reason for contact</p><h3>Intent Classifier</h3></div><span class="status status-mixed">Works, but has problems</span></header>
+  <p><strong>What it checks:</strong> Whether the first customer message is placed in the right support category, such as account access, product help, delivery, billing, or a bug.</p>
+  <p><strong>Customer meaning:</strong> A wrong category can send the customer to the wrong team or give the wrong first answer.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Synthetic validation</td><td><strong>89.6–96.5%</strong></td><td>Five local classifier versions looked strong on generated wording.</td></tr><tr><td>Natural customer wording</td><td><strong>20–50%</strong></td><td>Each model saw the same ten natural messages; the set is small and directional.</td></tr><tr><td>Best natural result</td><td><strong>5 / 10</strong></td><td>ModernBERT v1, SetFit v1 full, and SetFit v2 full tied at 50%.</td></tr></tbody></table>
+  <h4>Problems found</h4><ul><li>The 40–70 point synthetic-to-natural gap shows that generated training language is not a trustworthy stand-in for normal customer wording.</li></ul>
+  <p class="note">Claim limit: The natural set has only ten messages, so it identifies a risk but cannot estimate a production accuracy rate.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Complaint themes and product signals</p><h3>Signal</h3></div><span class="status status-partial">Only part was tested</span></header>
+  <p><strong>What it checks:</strong> Whether complaint records are grouped, labelled, scored, and turned into product evidence without overstating what the complaints prove.</p>
+  <p><strong>Customer meaning:</strong> Repeated customer problems should reach product teams as evidence, not as a vague summary or an invented conclusion.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>51 passed, 1 skipped</strong></td><td>Fresh run in a temporary copy; the live-key smoke test skipped.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>The golden model evaluation could not start because OPENROUTER_API_KEY was not set.</li></ul>
+  <p class="note">Claim limit: The data and offline rules ran; the current provider-based golden evaluation did not.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Routing and safety floor</p><h3>Support State Core</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether the system chooses guide, troubleshoot, or handoff while the strongest risk signal sets the minimum level of caution.</p>
+  <p><strong>Customer meaning:</strong> A high-risk case should never become a casual self-service answer because a weaker signal happened to arrive later.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>74 / 74 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Benchmark replay</td><td><strong>152 engine arms</strong></td><td>Fourteen scenarios: 28 scored attacks plus 124 smoke replays.</td></tr><tr><td>Safety results</td><td><strong>0 / 16 false-safe</strong></td><td>Handoff, lane, risk-floor, and fabrication checks all met their declared thresholds.</td></tr></tbody></table>
+  <p class="note">Claim limit: Strong rule and adversarial evidence on controlled scenarios; no live support traffic.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Handoff completeness and truth</p><h3>Handoff Engine</h3></div><span class="status status-partial">Only part was tested</span></header>
+  <p><strong>What it checks:</strong> Whether the next owner gets the customer goal, evidence, work already tried, open questions, and a specific next action.</p>
+  <p><strong>Customer meaning:</strong> The customer should not start again with a new agent or wait while engineering reconstructs a thin escalation.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>30 / 30 passed</strong></td><td>Fresh local gate and contract run.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>The native 14-case clean-plus-hostile roll-up calls Anthropic for each handoff and was not rerun as a paid provider job.</li></ul>
+  <p class="note">Claim limit: The deterministic gate is freshly tested; the current model-written handoff set is not.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">End-to-end voice support decisions</p><h3>Voice Support</h3></div><span class="status status-mixed">Works, but has problems</span></header>
+  <p><strong>What it checks:</strong> Privacy cleanup, meaning, route, risk, safe wording, support action, visual target, handoff, and final state across saved voice journeys.</p>
+  <p><strong>Customer meaning:</strong> The caller should be heard correctly, get the right help, and reach a person safely when the system cannot finish the case.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Full automated suite</td><td><strong>360 passed, 1 failed, 3 skipped</strong></td><td>The speech-worker restart timed out after 30 seconds while two local model evals were also running.</td></tr><tr><td>Focused speech-worker retry</td><td><strong>1 / 1 passed</strong></td><td>Passed in 7.12 seconds after the local model workloads stopped.</td></tr><tr><td>Deterministic journeys</td><td><strong>11 / 11 completed</strong></td><td>11/11 lanes, 11/11 visual targets, 8/8 handoff gates, and 0/11 false-safe outcomes.</td></tr><tr><td>AI QA reviewers</td><td><strong>0 / 55 ran</strong></td><td>Five reviewers across 11 journeys were intentionally off, so the product verdict stayed blocked.</td></tr></tbody></table>
+  <h4>Problems found</h4><ul><li>The full-suite speech-worker timeout was not reproduced in the focused retry, so local resource contention remains the likely cause rather than a confirmed product defect.</li><li>The offline journey runner correctly returned NOT DEMO-SAFE because AI reviewer coverage was missing.</li></ul>
+  <h4>Not run now</h4><ul><li>No live phone call, audio stream, production customer, or paid AI reviewer was used.</li></ul>
+  <p class="note">Claim limit: Strong deterministic saved-journey evidence with no fresh AI-reviewer evidence; the one STT timeout cleared on isolated retry.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Reusable support runtime and product contract</p><h3>Support Product</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether a support product can declare its capabilities and journeys, then run through the common support runtime without bypassing safety rules.</p>
+  <p><strong>Customer meaning:</strong> Different support products can use the same safety and outcome rules without pretending every app has the same tools.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Runtime tests</td><td><strong>86 / 86 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Product-profile tests</td><td><strong>38 / 38 passed</strong></td><td>Fresh local contract run.</td></tr><tr><td>Starter adapter conformance</td><td><strong>12 / 12 passed</strong></td><td>Fresh local connector check.</td></tr></tbody></table>
+  <p class="note">Claim limit: Strong local platform and connector contracts; not a live customer-support deployment.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Cross-product proof and version seal</p><h3>Support Binder</h3></div><span class="status status-blocked">Could not be certified</span></header>
+  <p><strong>What it checks:</strong> Whether the exact tested versions of the support components are the versions used together in one recorded journey.</p>
+  <p><strong>Customer meaning:</strong> A green result should not quietly combine a new decision engine with an old handoff test or an unreviewed connector.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>82 / 82 passed</strong></td><td>Fresh local run.</td></tr><tr><td>Current sealed journey</td><td><strong>BLOCKED</strong></td><td>Component commits and tags do not match the recorded seal; Support State Core is also dirty.</td></tr></tbody></table>
+  <h4>Problems found</h4><ul><li>The version seal is stale, so the Binder correctly refused to certify the current cross-product journey.</li><li>The 11-case roll-up also includes handoff anchors that the current Copilot fixture set does not contain.</li></ul>
+  <p class="note">Claim limit: The Binder&#x27;s tests are healthy, but its present cross-product proof is not valid.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">On-screen support guidance</p><h3>Screen-Aware Support</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether the system identifies a safe visible control, handles hidden or ambiguous targets, and refuses to claim it clicked anything.</p>
+  <p><strong>Customer meaning:</strong> The customer should be pointed to the right place on screen without the assistant inventing a button or taking an action it cannot take.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Python tests</td><td><strong>367 / 367 passed</strong></td><td>Fresh run in a temporary copy.</td></tr><tr><td>Browser tests</td><td><strong>27 / 27 passed</strong></td><td>Fresh Node run.</td></tr><tr><td>Contract fixtures</td><td><strong>14 / 14 passed</strong></td><td>Fresh conformance run.</td></tr><tr><td>Controlled app eval</td><td><strong>6 / 6 scored</strong></td><td>All declared metrics passed across app fixtures.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>The full-screen provider eval was not run because it requires an external screenshot provider and key.</li></ul>
+  <p class="note">Claim limit: Strong controlled app evidence; no production screen session and no live actuation.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Support desk workflow</p><h3>Internal Desk</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether a support case can move through resolution, engineering escalation, or an honest block using a desk-style workflow.</p>
+  <p><strong>Customer meaning:</strong> The ticket should reach a real next state with clear ownership, rather than ending as a plausible reply with no operational follow-through.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Automated tests</td><td><strong>304 / 304 passed</strong></td><td>Fresh local run.</td></tr></tbody></table>
+  <h4>Not run now</h4><ul><li>Live Zammad acceptance was not repeated because it changes helpdesk records.</li></ul>
+  <p class="note">Claim limit: Strong local workflow coverage; no fresh live-desk or customer evidence.</p>
+</article><article class="card">
+  <header><div><p class="eyebrow">Second-product connector</p><h3>Muesli Support Integration</h3></div><span class="status status-strong">Works well locally</span></header>
+  <p><strong>What it checks:</strong> Whether a different desktop product can declare support capabilities and connect to the shared runtime through the same contract.</p>
+  <p><strong>Customer meaning:</strong> The support framework is not tied only to one demo shop or to refunds; it can support normal product-help and technical-support flows in another app.</p>
+  <table class="evidence"><thead><tr><th>Fresh evidence</th><th>Result</th><th>What to know</th></tr></thead><tbody><tr><td>Application tests</td><td><strong>21 / 21 passed</strong></td><td>Fresh local Node run.</td></tr><tr><td>Adapter and profile conformance</td><td><strong>14 / 14 passed</strong></td><td>Fresh local connector run.</td></tr></tbody></table>
+  <p class="note">Claim limit: Good second-product contract evidence; still local and non-customer-facing.</p>
+</article>
+  </section>
+
+  <section class="panel" role="tabpanel" id="framework" aria-labelledby="tab-framework" hidden>
+    <h2>How the reusable framework behaved</h2>
+    <p>The framework reads a saved customer journey, runs the support checks chosen for that product, keeps every failure in the count, and writes local JSON plus this HTML view.</p>
+    <table class="evidence"><thead><tr><th>Test</th><th>Result</th><th>Why a support leader should care</th></tr></thead><tbody><tr><td>Framework regression suite</td><td><strong>44 / 44 passed</strong></td><td>The runner keeps failed checks, errors, abstentions, unsafe outcomes, traces, reports, and release decisions visible.</td></tr><tr><td>Normal chat journeys</td><td><strong>5 / 5 passed</strong></td><td>The reference shop covered technical help, account access, delivery, billing, and an engineering handoff.</td></tr><tr><td>Deliberately broken chat journeys</td><td><strong>6 / 6 defects blocked release</strong></td><td>The framework caught a missing answer fact, early diagnosis, wrong route, unverified action, unsafe promise, and incomplete handoff.</td></tr><tr><td>Normal captured voice journey</td><td><strong>1 / 1 passed</strong></td><td>The voice pack checked what the system heard, response time, interruption handling, silence, repetition, support action, and final state.</td></tr><tr><td>Deliberately broken voice journeys</td><td><strong>6 / 6 defects blocked release</strong></td><td>The framework caught lost meaning, slow response, talking over the customer, long silence and repetition, the wrong action, and the wrong outcome.</td></tr></tbody></table>
+    <div class="callout"><strong>How this gets reused:</strong> each support product supplies a small translator that turns its saved conversation, actions, handoff, and final state into the common journey format. The shared checks then run without copying the product into this repo.</div>
+  </section>
+
+  <section class="panel" role="tabpanel" id="limits" aria-labelledby="tab-limits" hidden>
+    <h2>What this run cannot claim</h2>
+    <ul><li>No real customers, production tickets, production calls, CSAT, first-contact resolution, or business outcome was measured.</li><li>Paid OpenRouter, Anthropic, and provider-based model runs were not started when a required key was absent or the run would spend money. They remain visible as not run.</li><li>Live Zammad acceptance was not repeated because it changes helpdesk records. The current run stayed read-only outside Support Evals.</li><li>Full-screen provider evaluation and live telephony were not run. Captured traces and controlled app fixtures were used instead.</li><li>Scores from unit tests, model comparisons, customer journeys, benchmark arms, and attack cases answer different questions. They must not be merged into one portfolio pass rate.</li><li>A local pass means the declared check passed in this environment. It does not mean the same system will pass with real customer language, policy changes, broken integrations, or production load.</li></ul>
+    <h3>Source-repository check</h3>
+    <p>This task kept all source repositories outside Support Evals read-only. One unrelated untracked file appeared in Support Product while the long run was underway.</p>
+    <p class="note">Existing user changes in Quality Agency, Realtime Support, Intent Classifier, Support State Core, and Screen-Aware Support were preserved. At 15:33:53, support-product/docs/architecture/support-system-architecture.tldraw appeared; this task did not create, edit, or remove it, and its source is not inferred. Generated eval artifacts that needed writes were created in temporary copies.</p>
+  </section>
+</main>
+<script>
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+    panels.forEach(panel => panel.hidden = panel.id !== tab.getAttribute('aria-controls'));
+    tab.focus();
+  }));
+</script>
+</body>
+</html>
