@@ -1,6 +1,8 @@
 # Support Evals
 
-A reusable QA framework for AI customer support.
+**A reply is evidence of communication, not of resolution. A journey fails if a troubleshooting step used a fact that had not arrived yet.**
+
+A reusable QA framework for AI customer support, tested on fictional reference cases and saved traces. No real support product has been connected yet.
 
 Most AI evaluations grade the reply. Customer support can fail before and
 after that reply: the system can misunderstand the customer, guess a cause too
@@ -10,7 +12,17 @@ no useful context.
 Support Evals reviews the complete customer journey—from the first contact to
 a verified resolution, a safe refusal, or a useful handoff.
 
-> A reply is evidence of communication. It is not evidence of resolution.
+## Start with the visual lesson
+
+[`How I Run Support Evals`](lessons/how-i-run-support-evals.html) explains the
+whole framework for a support-domain reader: how a case runs, where the original
+methods live, what has been learned, and what has not been proved with real
+customers.
+
+[`What I Learned from Building Support Products`](lessons/what-i-learned-building-support-products.html)
+teaches the judgment changes behind the wider support-product work: which ideas
+to build, adapt, keep testing, or kill, and why evidence must arrive before a
+support decision.
 
 ## What it reviews
 
@@ -40,7 +52,7 @@ Each run follows the same shape:
 ```text
 customer case
     ↓
-connected support product
+reference adapter
     ↓
 complete journey record
     ↓
@@ -50,6 +62,20 @@ release decision + saved evidence
 ```
 
 The checks can change by product. The support principles do not.
+
+## Honest boundary
+
+This repository has been tested with fictional cases, saved traces, controlled
+product states, and local reference adapters. It has not been validated on
+production customer traffic, and no real support product is connected.
+
+It can show that the framework catches the support failures represented in its
+cases. It cannot show that using the framework improves CSAT, resolution rate,
+customer effort, or safety in a support operation.
+
+Real use would provide the missing feedback loop: human QA disagreement,
+escalations, customer complaints, unexpected journeys, and business outcomes
+would reveal where the cases and rules are wrong or incomplete.
 
 ## A normal technical-support example
 
@@ -119,7 +145,7 @@ A product connects through a small adapter. The adapter has two jobs:
 
 The shared runner then applies the evaluation profile that fits the product.
 For a real integration, start with saved transcripts, a product sandbox, or a
-local test environment. Live customer access is not required to connect the
+local test environment. Customer access is not required to connect the
 framework.
 
 The main contracts are in [`support_evals/contracts.py`](support_evals/contracts.py).
@@ -157,20 +183,6 @@ The detailed cross-project evidence remains available as an appendix:
 
 - [`support-portfolio-report-2026-08-29.html`](examples/output/support-portfolio-report-2026-08-29.html)
 - [`support-portfolio-run-2026-08-29.json`](examples/output/support-portfolio-run-2026-08-29.json)
-
-## Honest boundary
-
-This repository has been tested with fictional cases, saved traces, controlled
-product states, and local support integrations. It has not been validated on
-production customer traffic.
-
-It can show that the framework catches the support failures represented in its
-cases. It cannot show that using the framework improves CSAT, resolution rate,
-customer effort, or safety in a live support operation.
-
-Production use would provide the missing feedback loop: human QA disagreement,
-real escalations, customer complaints, unexpected journeys, and business
-outcomes would reveal where the cases and rules are wrong or incomplete.
 
 ## Repository map
 
