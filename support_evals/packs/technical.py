@@ -6,6 +6,9 @@ from ..contracts import EvaluatorResult, Scenario, Trace
 from ._common import agent_events, check, expected_map, result, values
 
 
+_EVIDENCE_EVENTS = {"observation", "tool_result", "state_check"}
+
+
 class TechnicalInvestigationEvaluator:
     evaluator_id = "technical-investigation"
 
@@ -14,48 +17,64 @@ class TechnicalInvestigationEvaluator:
         checks = []
         evidence_sequences: dict[str, int] = {}
         for event in trace.events:
+            if event.actor != "system" or event.kind not in _EVIDENCE_EVENTS:
+                continue
             for fact in values(event, "facts"):
-                evidence_sequences.setdefault(fact, event.sequence)
+                evidence_sequences[fact] = min(
+                    event.sequence,
+                    evidence_sequences.get(fact, event.sequence),
+                )
 
         agent = agent_events(trace)
-        recorded_steps = {
-            str(event.data.get("step_id")): event
-            for event in agent
-            if event.data.get("step_id")
-        }
+        recorded_steps: dict[str, list] = {}
+        for event in agent:
+            if event.data.get("step_id"):
+                recorded_steps.setdefault(str(event.data["step_id"]), []).append(event)
         for item in expected.get("required_steps", ()):
             if isinstance(item, str):
                 item = {"step_id": item}
             step_id = str(item.get("step_id"))
-            step = recorded_steps.get(step_id)
+            steps = recorded_steps.get(step_id, [])
             requirements = [str(value) for value in item.get("requires_facts", ())]
             missing = [fact for fact in requirements if fact not in evidence_sequences]
-            premature = [
-                fact for fact in requirements
-                if fact in evidence_sequences and step is not None and evidence_sequences[fact] >= step.sequence
-            ]
-            passed = step is not None and not missing and not premature
-            details = []
-            if step is None:
-                details.append("step not recorded")
-            if missing:
-                details.append(f"missing evidence: {', '.join(missing)}")
-            if premature:
-                details.append(f"used before evidence: {', '.join(premature)}")
-            checks.append(
-                check(
-                    f"technical.step.{step_id}",
-                    passed,
-                    f"Troubleshooting step {step_id} {'followed the available evidence' if passed else 'was not evidence-led'}"
-                    + (f" ({'; '.join(details)})." if details else "."),
-                    "The customer is guided through a relevant next step based on what support has learned."
-                    if passed
-                    else "The customer may be sent through irrelevant steps or receive a premature diagnosis, adding time and effort.",
-                    evidence=[f"step sequence: {step.sequence if step else None}", f"evidence sequences: {evidence_sequences}"],
-                    expected={"step_id": step_id, "requires_facts": requirements},
-                    observed={"step_sequence": step.sequence if step else None, "missing": missing, "premature": premature},
+            if not steps:
+                checks.append(
+                    check(
+                        f"technical.step.{step_id}",
+                        False,
+                        f"Troubleshooting step {step_id} was not recorded.",
+                        "The customer may not receive the investigation needed to reach a relevant next step.",
+                        evidence=[f"admissible evidence sequences: {evidence_sequences}"],
+                        expected={"step_id": step_id, "requires_facts": requirements},
+                        observed={"step_sequence": None, "missing": missing, "premature": []},
+                    )
                 )
-            )
+                continue
+            for occurrence, step in enumerate(steps, start=1):
+                premature = [
+                    fact for fact in requirements
+                    if fact in evidence_sequences and evidence_sequences[fact] >= step.sequence
+                ]
+                passed = not missing and not premature
+                details = []
+                if missing:
+                    details.append(f"missing evidence: {', '.join(missing)}")
+                if premature:
+                    details.append(f"used before evidence: {', '.join(premature)}")
+                checks.append(
+                    check(
+                        f"technical.step.{step_id}" if occurrence == 1 else f"technical.step.{step_id}.{occurrence}",
+                        passed,
+                        f"Troubleshooting step {step_id} at sequence {step.sequence} {'followed the available evidence' if passed else 'was not evidence-led'}"
+                        + (f" ({'; '.join(details)})." if details else "."),
+                        "The customer is guided through a relevant next step based on what support has learned."
+                        if passed
+                        else "The customer may be sent through irrelevant steps or receive a premature diagnosis, adding time and effort.",
+                        evidence=[f"step sequence: {step.sequence}", f"admissible evidence sequences: {evidence_sequences}"],
+                        expected={"step_id": step_id, "requires_facts": requirements},
+                        observed={"step_sequence": step.sequence, "missing": missing, "premature": premature},
+                    )
+                )
 
         required_conclusions = [str(item) for item in expected.get("required_conclusions", ())]
         used_conclusions = set().union(*(values(event, "conclusions") for event in agent))
@@ -65,8 +84,8 @@ class TechnicalInvestigationEvaluator:
                 check(
                     f"technical.conclusion.{conclusion}",
                     present,
-                    f"Investigation conclusion {'is' if present else 'is not'} supported: {conclusion}.",
-                    "The customer gets a clear explanation of what support found."
+                    f"Investigation conclusion {'was' if present else 'was not'} recorded: {conclusion}.",
+                    "The record shows a conclusion, but this check does not prove it correctly explains the customer's issue."
                     if present
                     else "The customer may be left with no reliable explanation or next step.",
                     evidence=[f"recorded conclusions: {sorted(used_conclusions)}"],

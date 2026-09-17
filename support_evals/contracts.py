@@ -83,7 +83,12 @@ class Scenario:
 
 @dataclass(frozen=True)
 class Event:
-    """One observable event in a support journey."""
+    """One observable event in a support journey.
+
+    ``actor`` preserves the source recorded by an adapter. Technical timing
+    checks treat only ``system`` observation and result events as factual
+    evidence; customer and agent events remain statements in the journey.
+    """
 
     sequence: int
     actor: str
