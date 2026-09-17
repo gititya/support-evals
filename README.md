@@ -97,7 +97,7 @@ python3 -m support_evals.recorded_journeys path/to/captured-run.json \
   --output /tmp/recorded-review.json
 ```
 
-It retains source fingerprints and event references. Repeated attempts are not independent scenarios, and these selected records do not give a customer-success rate. The maintained suite contains 76 checks, including tests that old failures cannot be hidden by a later pass.
+It retains source fingerprints and event references. Repeated attempts are not independent scenarios, and these selected records do not give a customer-success rate. The maintained suite contains 78 checks, including tests that old failures cannot be hidden by a later pass.
 
 ## A normal technical-support example
 

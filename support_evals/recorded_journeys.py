@@ -86,13 +86,19 @@ def review_copilot(record, source):
     checks = []
     advice = [i for i, e in enumerate(history) if e.get('type') == 'private_advice']
     reads = [i for i, e in enumerate(history) if e.get('type') == 'read']
+    reports = [i for i, e in enumerate(history)
+               if e.get('type') in {'customer_update', 'rep_answer', 'rep_report'}]
+    available = bool(advice and reads and reports and min(reports) < max(advice)
+                     and min(reads) < max(advice))
     progress = record.get('case_progress', {})
     checks.append(CheckResult('record_available',
-        ResultStatus.PASS if history and advice else ResultStatus.ABSTENTION,
-        'Ordered rep reports, source reads and private advice are available.' if history and advice else
-        'The recorded conversation is incomplete.',
-        'The reviewer can inspect what was known when advice was offered.', (source + '/history',),
-        observed={'advice_indexes': advice, 'read_indexes': reads, 'final_progress': progress}))
+        ResultStatus.PASS if available else ResultStatus.ABSTENTION,
+        'Updates, source reads and subsequent advice are present for review.' if available else
+        'The record lacks updates or source reads followed by advice.',
+        'This inventory does not verify that each recommendation was supported at the time.',
+        (source + '/history',),
+        observed={'advice_indexes': advice, 'read_indexes': reads, 'report_indexes': reports,
+                  'final_progress': progress}))
     checks.append(CheckResult('support_judgment', ResultStatus.ABSTENTION,
         'Whether the questions, explanation and proposed transfer were useful requires review.',
         'Source-read order alone cannot prove the advice follows from the evidence.',

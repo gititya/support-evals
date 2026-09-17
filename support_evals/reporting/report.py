@@ -165,12 +165,13 @@ def _journey_card(journey: JourneyResult, *, include_trace: bool) -> str:
     for evaluator in journey.evaluators:
         for check in evaluator.checks:
             evidence = "".join(f"<li>{_esc(item)}</li>" for item in check.evidence)
+            error_markup = ('<p><span class="label">Error:</span> ' + _esc(check.error) + '</p>') if check.error else ''
+            evidence_markup = ('<p class="label">Evidence</p><ul>' + evidence + '</ul>') if evidence else ''
             checks.append(
                 f"<div class=\"check\"><h4>{_esc(check.check_id)} "
                 f"<span class=\"status status-{check.status.value}\">{_esc(check.status.value.upper())}</span></h4>"
                 f"<p>{_esc(check.summary)}</p><p><span class=\"label\">Customer effect:</span> {_esc(check.customer_effect)}</p>"
-                f"{('<p><span class=\"label\">Error:</span> ' + _esc(check.error) + '</p>') if check.error else ''}"
-                f"{('<p class=\"label\">Evidence</p><ul>' + evidence + '</ul>') if evidence else ''}</div>"
+                f"{error_markup}{evidence_markup}</div>"
             )
     if journey.error:
         checks.insert(0, f"<p><span class=\"label\">Execution or evaluation error:</span> {_esc(journey.error)}</p>")

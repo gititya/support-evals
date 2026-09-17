@@ -40,6 +40,20 @@ class RecordedJourneyTests(unittest.TestCase):
         report = review_copilot({'history': [{'type': 'read'}, {'type': 'private_advice'}]}, 'source')
         self.assertEqual(report['status'], 'abstention')
 
+    def test_copilot_missing_or_late_sources_do_not_pass_inventory(self):
+        for types in (['private_advice'], ['private_advice', 'read'],
+                      ['customer_update', 'private_advice', 'read'],
+                      ['read', 'private_advice']):
+            with self.subTest(types=types):
+                report = review_copilot({'history': [{'type': t} for t in types]}, 'source')
+                self.assertEqual(report['checks'][0]['status'], 'abstention')
+
+    def test_copilot_inventory_does_not_certify_support_judgment(self):
+        report = review_copilot({'history': [{'type': t} for t in
+            ['customer_update', 'private_advice', 'rep_answer', 'read', 'private_advice']]}, 'source')
+        self.assertEqual(report['checks'][0]['status'], 'pass')
+        self.assertEqual(report['checks'][1]['status'], 'abstention')
+
 
 if __name__ == '__main__':
     unittest.main()
