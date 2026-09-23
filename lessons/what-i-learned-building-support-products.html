@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive lesson on the support-product judgments Adi earned through experiments, failures, and controlled builds.">
+  <title>What I Learned from Building Support Products</title>
+  <!-- Kora Tier 3: this is a standalone editorial teaching artifact, not a Kora app. -->
+  <style>
+    :root {
+      --paper: #f5f0e6;
+      --paper-deep: #e8dece;
+      --ink: #19211f;
+      --muted: #59645f;
+      --line: #bdb3a4;
+      --night: #172522;
+      --night-2: #22332f;
+      --cream: #fffaf0;
+      --orange: #d65f37;
+      --orange-soft: #f3d6c8;
+      --teal: #247568;
+      --teal-soft: #d6e8e1;
+      --gold: #9a6b16;
+      --gold-soft: #eee1bd;
+      --red: #973f36;
+      --red-soft: #efd5d0;
+      --blue: #315f88;
+      --blue-soft: #dce6ef;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 17px/1.68 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    button, summary { font: inherit; }
+    button:focus-visible, a:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -80px;
+      z-index: 30;
+      padding: 10px 14px;
+      background: var(--cream);
+      color: var(--ink);
+    }
+    .skip-link:focus { top: 12px; }
+    .shell { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
+    .hero-grid > *, .opening-grid > *, .timeline-layout > *, .journey-layout > *,
+    .decision-layout > *, .where-grid > *, .truth-board > *, .sources > * { min-width: 0; }
+    .measure { width: min(760px, 100%); }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--orange);
+      font: 700 12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { margin-top: 0; text-wrap: balance; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -.035em; }
+    h1 { max-width: 940px; margin-bottom: 24px; font-size: clamp(43px, 8vw, 88px); line-height: .98; }
+    h2 { margin-bottom: 16px; font-size: clamp(32px, 5vw, 57px); line-height: 1.04; }
+    h3 { margin-bottom: 10px; font-size: 21px; line-height: 1.25; }
+    p { margin: 0 0 1em; }
+    .lead { max-width: 760px; color: #d7e2dd; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.48; }
+    .hero { padding: 74px 0 64px; background: var(--night); color: var(--cream); }
+    .hero .eyebrow { color: #f19a7d; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 44px; align-items: end; }
+    .hero-thesis { padding: 22px; border-top: 4px solid var(--orange); background: var(--night-2); }
+    .hero-thesis span { display: block; margin-bottom: 10px; color: #aebdb7; font-size: 13px; text-transform: uppercase; letter-spacing: .1em; }
+    .hero-thesis strong { font: 600 23px/1.35 Georgia, "Times New Roman", serif; }
+    .truth-strip { border-bottom: 1px solid var(--line); background: var(--cream); }
+    .truth-strip .shell { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding-block: 18px; }
+    .truth-strip strong { color: var(--teal); }
+    .truth-strip p { margin: 0; }
+    .lesson-nav { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(245, 240, 230, .95); backdrop-filter: blur(12px); }
+    .lesson-nav .shell { display: flex; gap: 6px; overflow-x: auto; padding-block: 9px; scrollbar-width: none; }
+    .lesson-nav a { flex: 0 0 auto; padding: 7px 10px; color: var(--muted); font-size: 13px; font-weight: 700; text-decoration: none; }
+    .lesson-nav a:hover { color: var(--ink); background: var(--cream); }
+    .section { padding: 84px 0; border-top: 1px solid var(--line); }
+    .section-intro { margin-bottom: 36px; }
+    .section-intro > p:not(.eyebrow) { max-width: 760px; color: var(--muted); font-size: 19px; }
+    .opening-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: start; }
+    .opening-quote { padding: 28px; background: var(--night); color: var(--cream); }
+    .opening-quote p { margin: 0; font: 600 clamp(24px, 3vw, 36px)/1.3 Georgia, "Times New Roman", serif; }
+    .opening-quote footer { margin-top: 18px; color: #aebdb7; font-size: 14px; }
+    .problem-chain { display: grid; gap: 9px; }
+    .problem-step { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .problem-step span { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: var(--orange-soft); color: var(--red); font-weight: 800; }
+    .problem-step p { margin: 0; }
+    .timeline-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: 26px; align-items: start; }
+    .timeline { position: relative; display: grid; gap: 7px; }
+    .timeline::before { content: ""; position: absolute; top: 22px; bottom: 22px; left: 19px; width: 2px; background: var(--line); }
+    .timeline-button {
+      position: relative;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 14px;
+      min-height: 66px;
+      padding: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+    }
+    .timeline-button:hover { background: rgba(255, 250, 240, .65); }
+    .timeline-button[aria-pressed="true"] { border-color: var(--orange); background: var(--cream); }
+    .timeline-dot { z-index: 1; display: grid; width: 38px; height: 38px; place-items: center; border-radius: 50%; background: var(--paper-deep); color: var(--muted); font-weight: 800; }
+    .timeline-button[aria-pressed="true"] .timeline-dot { background: var(--orange); color: var(--cream); }
+    .timeline-button small { display: block; color: var(--muted); }
+    .timeline-detail { position: sticky; top: 76px; min-height: 360px; padding: 28px; background: var(--night); color: var(--cream); }
+    .timeline-detail .eyebrow { color: #f19a7d; }
+    .timeline-detail p { color: #cbd7d2; }
+    .timeline-detail .turn { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.16); color: var(--cream); font-weight: 700; }
+    .lesson-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .lesson-pair { padding: 24px; border-top: 4px solid var(--orange); background: var(--cream); }
+    .used-to { margin-bottom: 15px; color: var(--muted); text-decoration: line-through; text-decoration-color: var(--orange); }
+    .learned { color: var(--teal); font: 700 23px/1.35 Georgia, "Times New Roman", serif; }
+    .lesson-pair p:last-child { margin-bottom: 0; }
+    .journey-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 24px; align-items: start; }
+    .journey-map { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .journey-button {
+      min-height: 150px;
+      padding: 18px 14px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--paper-deep);
+      background: var(--cream);
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+    }
+    .journey-button span { display: block; margin-bottom: 12px; color: var(--muted); font-size: 13px; }
+    .journey-button[aria-pressed="true"] { border-color: var(--teal); border-top-color: var(--teal); background: var(--teal-soft); }
+    .journey-detail { min-height: 300px; padding: 26px; background: var(--cream); border: 1px solid var(--line); }
+    .customer-effect { margin-top: 20px; padding: 16px; background: var(--red-soft); color: #6e302b; font-weight: 700; }
+    .framework { display: grid; gap: 0; counter-reset: framework; }
+    .framework-step { counter-increment: framework; display: grid; grid-template-columns: 70px 1fr 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid var(--line); }
+    .framework-step::before { content: "0" counter(framework); color: var(--orange); font: 700 18px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .framework-step strong { font-size: 19px; }
+    .framework-step p { margin: 0; color: var(--muted); }
+    .framework-rule { margin-top: 30px; padding: 24px; border-left: 6px solid var(--orange); background: var(--orange-soft); font: 600 25px/1.45 Georgia, "Times New Roman", serif; }
+    .decision-layout { display: grid; grid-template-columns: 210px 1fr; gap: 26px; }
+    .decision-controls { display: grid; align-content: start; gap: 8px; }
+    .decision-button {
+      min-height: 50px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      font-weight: 750;
+    }
+    .decision-button[aria-pressed="true"] { border-color: var(--teal); background: var(--teal); color: var(--cream); }
+    .decision-detail { min-height: 320px; padding: 28px; background: var(--cream); border: 1px solid var(--line); }
+    .decision-detail ul { margin: 18px 0 0; padding-left: 20px; }
+    .decision-detail li { margin: 10px 0; }
+    .where-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 16px; align-items: stretch; }
+    .where-column { padding: 26px; background: var(--cream); border: 1px solid var(--line); }
+    .where-column.current { background: var(--night); color: var(--cream); border-color: var(--night); }
+    .where-column.current p, .where-column.current li { color: #cbd7d2; }
+    .where-arrow { display: grid; place-items: center; color: var(--orange); font-size: 34px; }
+    .where-column ul { padding-left: 19px; }
+    .where-column li { margin: 10px 0; }
+    .boundary-box { margin-top: 22px; padding: 20px; border: 2px dashed var(--gold); background: var(--gold-soft); }
+    .truth-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .truth-column { padding: 24px; }
+    .truth-column.verified { background: var(--teal-soft); }
+    .truth-column.inferred { background: var(--blue-soft); }
+    .truth-column.unknown { background: var(--gold-soft); }
+    .truth-column ul { margin-bottom: 0; padding-left: 19px; }
+    .truth-column li { margin: 11px 0; }
+    .practice-list { display: grid; gap: 16px; }
+    .scenario { padding: 24px; background: var(--cream); border: 1px solid var(--line); }
+    .scenario > p { font-weight: 700; }
+    .scenario-options { display: flex; flex-wrap: wrap; gap: 9px; }
+    .scenario button { min-height: 46px; padding: 9px 13px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+    .scenario button:hover { border-color: var(--blue); }
+    .scenario button[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); }
+    .scenario-result { min-height: 64px; margin-top: 14px; padding: 12px 14px; color: var(--muted); background: var(--paper); }
+    .scenario-result.correct { color: #21594d; background: var(--teal-soft); font-weight: 700; }
+    .scenario-result.wrong { color: #71342e; background: var(--red-soft); font-weight: 700; }
+    .glossary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .term { padding: 18px; border-top: 4px solid var(--blue); background: var(--blue-soft); }
+    .term strong { display: block; margin-bottom: 7px; }
+    .term p { margin: 0; color: #44545f; font-size: 14px; }
+    .sources { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .sources ul { margin: 0; padding-left: 20px; }
+    .sources li { margin: 10px 0; }
+    .closing { padding: 46px; background: var(--night); color: var(--cream); }
+    .closing strong { display: block; max-width: 780px; margin-bottom: 16px; font: 600 clamp(30px, 5vw, 54px)/1.08 Georgia, "Times New Roman", serif; }
+    .closing p { max-width: 760px; margin: 0; color: #cbd7d2; font-size: 19px; }
+    footer.page-footer { padding: 34px 0 54px; color: var(--muted); font-size: 14px; }
+
+    @media (max-width: 920px) {
+      .hero-grid, .opening-grid, .timeline-layout, .journey-layout, .decision-layout, .sources { grid-template-columns: 1fr; }
+      .hero-thesis { max-width: 620px; }
+      .timeline-detail { position: static; min-height: 300px; }
+      .journey-map { grid-template-columns: repeat(2, 1fr); }
+      .where-grid { grid-template-columns: 1fr; }
+      .where-arrow { transform: rotate(90deg); }
+      .truth-board { grid-template-columns: 1fr; }
+      .decision-controls { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 660px) {
+      body { font-size: 16px; }
+      .hero { padding: 52px 0 46px; }
+      .section { padding: 62px 0; }
+      .truth-strip .shell, .framework-step { grid-template-columns: 1fr; gap: 8px; }
+      .lesson-pairs, .journey-map, .glossary, .decision-controls { grid-template-columns: 1fr; }
+      .journey-button { min-height: auto; }
+      .closing { padding: 30px 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print {
+      .lesson-nav, .scenario-options, .decision-controls { display: none; }
+      body { background: white; }
+      .hero, .timeline-detail, .where-column.current, .closing { background: white; color: black; border: 1px solid #777; }
+      .lead, .timeline-detail p, .where-column.current p, .where-column.current li, .closing p { color: #333; }
+      .section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to lesson</a>
+
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">A lesson from the work, not a tour of the repos</p>
+        <h1>What I learned from building support products</h1>
+        <p class="lead">The useful result was not a bigger support bot. It was better judgment about when a system may understand, diagnose, act, promise, hand off, or stop.</p>
+      </div>
+      <aside class="hero-thesis" aria-label="Core thesis">
+        <span>The strongest lesson</span>
+        <strong>A support decision is only as good as the evidence available when it is made.</strong>
+      </aside>
+    </div>
+  </header>
+
+  <div class="truth-strip">
+    <div class="shell">
+      <strong>Claim boundary</strong>
+      <p>This lesson draws on local tests, synthetic cases, saved traces, public complaints, controlled product states, and supervised local app runs. It does not claim production customer outcomes.</p>
+    </div>
+  </div>
+
+  <nav class="lesson-nav" aria-label="Lesson sections">
+    <div class="shell">
+      <a href="#problem">The problem</a>
+      <a href="#timeline">Mind changes</a>
+      <a href="#lessons">Core lessons</a>
+      <a href="#journey">Customer journey</a>
+      <a href="#framework">Frameworks</a>
+      <a href="#decisions">Build / adapt / kill</a>
+      <a href="#where">Where it runs</a>
+      <a href="#truth">Truth boundary</a>
+      <a href="#practice">Practice</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="section" id="problem">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">The problem I kept returning to</p>
+          <h2>Support can look complete before the customer is safe</h2>
+          <p>A reply can sound clear, a route can look sensible, an action can be recorded, and an escalation can be sent. Each can still fail the customer.</p>
+        </div>
+        <div class="opening-grid">
+          <blockquote class="opening-quote">
+            <p>“A reply is evidence of communication. It is not evidence of resolution.”</p>
+            <footer>Working rule from Support Evals</footer>
+          </blockquote>
+          <div class="problem-chain" aria-label="How apparent completion becomes customer failure">
+            <div class="problem-step"><span>1</span><p>The system hears a symptom and mistakes it for a cause.</p></div>
+            <div class="problem-step"><span>2</span><p>It chooses a plausible path before checking what changed.</p></div>
+            <div class="problem-step"><span>3</span><p>It says “done,” “safe,” or “escalated” before the outcome exists.</p></div>
+            <div class="problem-step"><span>4</span><p>The customer repeats work, enters the wrong queue, or trusts a false promise.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="timeline">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">One failed assumption led to the next test</p>
+          <h2>The work changed the question</h2>
+          <p>Select a turn in the timeline. The lesson is the judgment change, not the amount of code built.</p>
+        </div>
+        <div class="timeline-layout">
+          <div class="timeline" aria-label="Support product learning timeline">
+            <button class="timeline-button" type="button" aria-pressed="true" data-title="Speed looked like the advantage" data-observed="The realtime experiment asked whether the exact cause could be named from the opening turns. On stronger synthetic calls, the early result fell to 2% against a 60% build gate, while the full call reached 92%. The test worked; the cause was not available early." data-turn="Kill early root-cause prediction. Keep the pre-build gate."><span class="timeline-dot">1</span><span><strong>Predict sooner</strong><small>Realtime Support</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Investigation became the product" data-observed="Support Copilot Lab replaced early prediction with a live case state: facts, unknowns, candidate branches, ruled-out paths, and the next check. A model that eventually reached the right cause still failed if it named that cause before the evidence arrived." data-turn="Build investigation support; do not reward lucky diagnosis."><span class="timeline-dot">2</span><span><strong>Work the case</strong><small>Support Copilot Lab</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Cleaner words could damage meaning" data-observed="Transcript cleanup looked helpful until the complete benchmark showed that both tested pipelines lost more support-critical meaning after cleanup. The customer effect was severe: a missing negation, amount, correction, or risk phrase could change the case." data-turn="Keep raw meaning. Adapt cleanup behind a separate verifier."><span class="timeline-dot">3</span><span><strong>Protect meaning</strong><small>Transcript and voice work</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Generated language flattered the router" data-observed="Several intent models looked strong on synthetic validation wording, then reached only 20–50% on ten naturally worded messages. The natural set was small, but the gap was large enough to reject automatic routing as proved." data-turn="Use confidence to ask or route to a person; collect better language before training again."><span class="timeline-dot">4</span><span><strong>Test normal language</strong><small>Intent Classifier</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="The reviewer also needed QA" data-observed="Narrow AI reviewers caught useful failures, but more detailed instructions made a small judge easier to distract. A fresh calibration still let one unsupported promise through. A reviewer can help find risk; it cannot certify itself." data-turn="Adapt AI review as a second look. Keep exact checks and human calibration."><span class="timeline-dot">5</span><span><strong>Calibrate the judge</strong><small>Quality Agency</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Transfer was not the outcome" data-observed="The handoff work separated a route from a usable transfer. A complete handoff must preserve the goal, evidence, work already tried, open questions, risk, and a named next action. A thin note makes the customer restart." data-turn="Treat handoff quality as part of resolution, with a mechanical hold when required facts are absent."><span class="timeline-dot">6</span><span><strong>Make handoff useful</strong><small>Handoff Engine</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Finding a control did not prove progress" data-observed="In a multi-step screen journey, the model found the first target. The harness then skipped an unverified state and asked for a control that was not yet visible. The model correctly refused; the sequence was wrong." data-turn="Separate target found from customer action verified. Advance only on a fresh matching observation."><span class="timeline-dot">7</span><span><strong>Verify the action</strong><small>Screen-Aware Support</small></span></button>
+            <button class="timeline-button" type="button" aria-pressed="false" data-title="Green parts did not make a green whole" data-observed="Support Binder's component checks could pass while the cross-product seal was stale. It blocked the combined proof because the checked-out versions no longer matched the recorded evidence." data-turn="Keep version and proof integrity. Do not combine results from different builds into one claim."><span class="timeline-dot">8</span><span><strong>Bind proof to version</strong><small>Support Binder</small></span></button>
+          </div>
+          <aside class="timeline-detail" aria-live="polite">
+            <p class="eyebrow">What changed my mind</p>
+            <h3 id="timeline-title">Speed looked like the advantage</h3>
+            <p id="timeline-observed">The realtime experiment asked whether the exact cause could be named from the opening turns. On stronger synthetic calls, the early result fell to 2% against a 60% build gate, while the full call reached 92%. The test worked; the cause was not available early.</p>
+            <p class="turn" id="timeline-turn">Kill early root-cause prediction. Keep the pre-build gate.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lessons">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">The strongest cross-product lessons</p>
+          <h2>I used to think / I learned</h2>
+          <p>These are the beliefs the evidence changed. Each one points to a different product decision.</p>
+        </div>
+        <div class="lesson-pairs">
+          <article class="lesson-pair"><p class="used-to">I used to think speed meant knowing the answer sooner.</p><h3 class="learned">Speed means reaching the next justified check sooner.</h3><p>Early certainty can increase customer effort when it sends the case down the wrong path.</p></article>
+          <article class="lesson-pair"><p class="used-to">I used to think a clearer transcript was safer.</p><h3 class="learned">Preserved meaning matters more than polished wording.</h3><p>A correction or negation is operational data. Cleanup that changes it is not an edit; it is a support error.</p></article>
+          <article class="lesson-pair"><p class="used-to">I used to think more rules made an AI reviewer stricter.</p><h3 class="learned">A reviewer must earn trust through calibration.</h3><p>More prompt detail can create more ways to excuse a bad reply. Compare the reviewer with approved human judgments.</p></article>
+          <article class="lesson-pair"><p class="used-to">I used to think the final reply proved the outcome.</p><h3 class="learned">The product state proves whether the action worked.</h3><p>“I changed it” is a claim. A fresh account, order, ticket, or screen state is evidence.</p></article>
+          <article class="lesson-pair"><p class="used-to">I used to think escalation ended the automated journey.</p><h3 class="learned">A handoff succeeds only when the next owner can continue.</h3><p>Correct routing with a thin note still makes the customer repeat the case.</p></article>
+          <article class="lesson-pair"><p class="used-to">I used to think a large synthetic test set created realism.</p><h3 class="learned">Test-data provenance can change the conclusion.</h3><p>A stronger call author erased the realtime experiment's promising early signal. The author was part of the system under test.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">Where the lessons apply</p>
+          <h2>One customer journey, five evidence gates</h2>
+          <p>Choose a stage to see the decision, the evidence it needs, and the customer cost when the gate is weak.</p>
+        </div>
+        <div class="journey-layout">
+          <div class="journey-map" aria-label="Customer support journey">
+            <button class="journey-button" type="button" aria-pressed="true" data-title="Understand the customer" data-evidence="Preserve the stated goal, correction, date, amount, negation, prior attempt, and risk language." data-framework="Meaning preservation + intent uncertainty" data-effect="A changed meaning sends the customer to the wrong queue or makes the system solve the wrong problem."><span>First contact</span><strong>Understand</strong></button>
+            <button class="journey-button" type="button" aria-pressed="false" data-title="Investigate before diagnosis" data-evidence="Keep facts, guesses, open questions, rejected paths, and the next useful check separate." data-framework="Live Support State + evidence timing" data-effect="A premature diagnosis repeats failed steps and hides the real cause behind a confident story."><span>Case work</span><strong>Investigate</strong></button>
+            <button class="journey-button" type="button" aria-pressed="false" data-title="Guide within authority" data-evidence="Use current policy, product facts, risk floors, safe targets, and explicit limits on what the system may promise." data-framework="Deterministic safety + calibrated review" data-effect="An unsupported promise can create financial, safety, or trust harm even when the reply sounds helpful."><span>Answer and route</span><strong>Guide</strong></button>
+            <button class="journey-button" type="button" aria-pressed="false" data-title="Act, then verify" data-evidence="Record the intended action, its result, and a fresh product state that matches the expected outcome." data-framework="Action verification + fresh-state checks" data-effect="The customer is told the work is complete while the account, order, ticket, or screen remains unchanged."><span>Tool or customer step</span><strong>Verify</strong></button>
+            <button class="journey-button" type="button" aria-pressed="false" data-title="Close or hand off honestly" data-evidence="End with a verified resolution, an explained limit, or a handoff with evidence, prior work, unknowns, risk, owner, and next action." data-framework="Outcome gate + handoff contract" data-effect="The next person reconstructs the case and the customer has to start again."><span>Final state</span><strong>Close</strong></button>
+          </div>
+          <aside class="journey-detail" aria-live="polite">
+            <p class="eyebrow">Evidence needed</p>
+            <h3 id="journey-title">Understand the customer</h3>
+            <p id="journey-evidence">Preserve the stated goal, correction, date, amount, negation, prior attempt, and risk language.</p>
+            <p><strong>Reusable frame:</strong> <span id="journey-framework">Meaning preservation + intent uncertainty</span></p>
+            <div class="customer-effect" id="journey-effect">A changed meaning sends the customer to the wrong queue or makes the system solve the wrong problem.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="framework">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">The reusable method</p>
+          <h2>Evidence-gated support decisions</h2>
+          <p>This is the method that survived the individual products. It is support QA expressed as a sequence of defendable decisions.</p>
+        </div>
+        <div class="framework">
+          <div class="framework-step"><strong>Name the customer effect first</strong><p>Define the harm in support terms: repeat contact, wrong queue, unsafe promise, unverified action, or thin handoff.</p></div>
+          <div class="framework-step"><strong>State the load-bearing assumption</strong><p>Ask what must be true for the product idea to help. Set the build gate before seeing the result.</p></div>
+          <div class="framework-step"><strong>Separate what is known from what is guessed</strong><p>Preserve corrections and open questions. Do not let a plausible branch become a final answer without mechanism evidence.</p></div>
+          <div class="framework-step"><strong>Use the right kind of reviewer</strong><p>Use fixed rules for facts and permissions, AI reviewers for bounded judgment, and people to calibrate the reviewers and discover missing criteria.</p></div>
+          <div class="framework-step"><strong>Verify action and final state</strong><p>Check that the action ran, the expected state exists, and the observation is fresh. A sentence cannot verify itself.</p></div>
+          <div class="framework-step"><strong>Bind the claim to its proof</strong><p>Record the exact cases, source, version, failed runs, and limits. Do not merge local, synthetic, controlled, and production evidence.</p></div>
+        </div>
+        <div class="framework-rule">Only say or do what the available evidence at that point in the customer journey supports.</div>
+      </div>
+    </section>
+
+    <section class="section" id="decisions">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">Concrete product decisions</p>
+          <h2>Build, adapt, or kill</h2>
+          <p>The same evidence can justify three different moves. Select a decision to see examples from the work.</p>
+        </div>
+        <div class="decision-layout">
+          <div class="decision-controls" aria-label="Decision types">
+            <button class="decision-button" type="button" aria-pressed="true" data-decision="build">Build</button>
+            <button class="decision-button" type="button" aria-pressed="false" data-decision="adapt">Adapt</button>
+            <button class="decision-button" type="button" aria-pressed="false" data-decision="kill">Kill</button>
+          </div>
+          <article class="decision-detail" aria-live="polite">
+            <p class="eyebrow" id="decision-label">Build when the method survives the test</p>
+            <h3 id="decision-title">Build the evidence boundary</h3>
+            <p id="decision-copy">The strongest parts are the ones that make support claims harder to fake and easier to inspect.</p>
+            <ul id="decision-list">
+              <li>Evidence-timed case state: facts, unknowns, branches, next check, and justified resolution.</li>
+              <li>Deterministic risk floors, bounded troubleshooting, and fail-closed handoff.</li>
+              <li>Action and fresh-state verification, including customer-only screen guidance.</li>
+              <li>A reusable local harness that keeps errors, unsafe outcomes, and abstentions visible.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="where">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">Where the work runs today</p>
+          <h2>The source methods and the new harness are not the same thing</h2>
+          <p>This boundary matters. Consolidating the learning did not move every original implementation into one repo.</p>
+        </div>
+        <div class="where-grid">
+          <article class="where-column">
+            <p class="eyebrow">Original source repos</p>
+            <h3>The methods still live where they were built</h3>
+            <ul>
+              <li>Realtime prediction and Support Copilot investigation</li>
+              <li>Intent classification and transcript preservation</li>
+              <li>Quality Agency and Handoff Engine</li>
+              <li>Support State Core, Voice Support, Screen-Aware Support</li>
+              <li>Signal, Support Product, Binder, Internal Desk, and Muesli integration</li>
+            </ul>
+          </article>
+          <div class="where-arrow" aria-hidden="true">→</div>
+          <article class="where-column current">
+            <p class="eyebrow">Reusable Support Evals 0.1</p>
+            <h3>What runs through the shared harness now</h3>
+            <ul>
+              <li>A fictional reference shop across complete chat journeys</li>
+              <li>A provider-neutral captured-voice journey format</li>
+              <li>Reusable checks for answer evidence, investigation timing, routing, risk, handoff, action, final state, and voice behavior</li>
+              <li>Local JSON evidence and a support-readable report</li>
+            </ul>
+          </article>
+        </div>
+        <div class="boundary-box"><strong>Not yet connected:</strong> the live implementations from the source repos. Screen-aware guidance and complaint-theme mining are explicitly outside the current Support Evals 0.1 scope. The portfolio run compared their evidence; it did not make them shared-harness adapters.</div>
+      </div>
+    </section>
+
+    <section class="section" id="truth">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Make the claim boundary visible</p>
+          <h2>What is true, promising, and unknown</h2>
+          <p>The evidence is useful because the limit stays attached to the claim.</p>
+        </div>
+        <div class="truth-board">
+          <article class="truth-column verified"><h3>Verified now</h3><ul><li>The local harness catches the deliberate support failures represented in its fictional chat and saved voice cases.</li><li>Several source systems enforce evidence timing, risk floors, handoff fields, fresh-state checks, and proof-version rules in controlled environments.</li><li>Some initial beliefs failed: early exact-cause prediction, default transcript cleanup, synthetic-only intent confidence, and uncalibrated reviewer trust.</li></ul></article>
+          <article class="truth-column inferred"><h3>Reasonable inference</h3><ul><li>The cross-product method is coherent: require enough evidence before each support decision, then verify the outcome.</li><li>The best first operational use is likely offline or shadow QA, because it can compare system judgments with human review without affecting customers.</li><li>The reusable harness can accept more products through adapters, but each adapter still needs to be built and tested.</li></ul></article>
+          <article class="truth-column unknown"><h3>Not yet known</h3><ul><li>Whether the method improves customer effort, repeat contact, CSAT, resolution, or safety in production.</li><li>How it behaves across real language, accents, policies, product changes, broken integrations, and production load.</li><li>How often human QA will disagree, override, or discover missing checks once real cases enter the loop.</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Retrieval practice</p>
+          <h2>Can I apply the lesson?</h2>
+          <p>Choose the next support move. Feedback appears at once. The choices use the same word count so wording length does not reveal the answer.</p>
+        </div>
+        <div class="practice-list">
+          <article class="scenario" data-answer="ask-next-check" data-correct="Correct. The opening gives a symptom, not the mechanism. Ask the next check that separates the live branches." data-wrong="Not yet. Naming or fixing a cause from the opening repeats the failed realtime assumption: confidence before evidence.">
+            <p>Three users lost access after a migration. No product evidence has arrived. What should the assistant do?</p>
+            <div class="scenario-options"><button type="button" data-choice="name-likely-cause">Name likely cause</button><button type="button" data-choice="ask-next-check">Ask next check</button><button type="button" data-choice="promise-quick-fix">Promise quick fix</button></div>
+            <div class="scenario-result" aria-live="polite">Choose one response.</div>
+          </article>
+          <article class="scenario" data-answer="check-product-state" data-correct="Correct. The agent's sentence is only a claim. The changed product state is the outcome evidence." data-wrong="Not yet. A polished confirmation or an escalation cannot prove that the requested action happened.">
+            <p>An agent says, “Your camera is reconnected.” What should QA inspect next?</p>
+            <div class="scenario-options"><button type="button" data-choice="trust-agent-sentence">Trust agent sentence</button><button type="button" data-choice="check-product-state">Check product state</button><button type="button" data-choice="escalate-without-evidence">Escalate without evidence</button></div>
+            <div class="scenario-result" aria-live="polite">Choose one response.</div>
+          </article>
+          <article class="scenario" data-answer="calibrate-against-humans" data-correct="Correct. A judge earns trust by matching approved human judgments and exposing its false-safe errors." data-wrong="Not yet. More instructions or high confidence do not prove that the reviewer catches bad support safely.">
+            <p>An AI reviewer gives confident passes, but human QA finds risky promises. What should the team do?</p>
+            <div class="scenario-options"><button type="button" data-choice="add-longer-rubric">Add longer rubric</button><button type="button" data-choice="calibrate-against-humans">Calibrate against humans</button><button type="button" data-choice="accept-high-confidence">Accept high confidence</button></div>
+            <div class="scenario-result" aria-live="polite">Choose one response.</div>
+          </article>
+          <article class="scenario" data-answer="wait-for-change" data-correct="Correct. Finding the target proves where to point. A fresh matching state proves that the customer action happened." data-wrong="Not yet. A resolved target is not a completed step, and assuming a click can skip the customer into the wrong screen state.">
+            <p>Screen guidance finds the correct Settings button. When may the journey advance?</p>
+            <div class="scenario-options"><button type="button" data-choice="advance-after-target">Advance after target</button><button type="button" data-choice="wait-for-change">Wait for change</button><button type="button" data-choice="assume-customer-clicked">Assume customer clicked</button></div>
+            <div class="scenario-result" aria-live="polite">Choose one response.</div>
+          </article>
+          <article class="scenario" data-answer="keep-human-route" data-correct="Correct. The natural-language set is small, but the synthetic gap is large enough to keep a human route while better cases are gathered." data-wrong="Not yet. A strong synthetic result does not justify automatic routing when normal customer wording exposes a large gap.">
+            <p>A classifier looks strong on generated messages and weak on ten natural ones. What is the next decision?</p>
+            <div class="scenario-options"><button type="button" data-choice="ship-auto-routing">Ship auto routing</button><button type="button" data-choice="keep-human-route">Keep human route</button><button type="button" data-choice="train-more-templates">Train more templates</button></div>
+            <div class="scenario-result" aria-live="polite">Choose one response.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="glossary">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Plain-English glossary</p>
+          <h2>Terms worth keeping</h2>
+        </div>
+        <div class="glossary">
+          <article class="term"><strong>Evidence gate</strong><p>A rule that stops a decision until the case contains enough proof to defend it.</p></article>
+          <article class="term"><strong>False-safe</strong><p>A dangerous case that the system wrongly passes as safe.</p></article>
+          <article class="term"><strong>Deterministic check</strong><p>A fixed rule with the same result for the same input; no AI judgment is involved.</p></article>
+          <article class="term"><strong>Calibration</strong><p>Comparing a reviewer with approved human judgments and measuring where it disagrees.</p></article>
+          <article class="term"><strong>Abstention</strong><p>The reviewer says it lacks enough evidence to judge instead of inventing a pass or fail.</p></article>
+          <article class="term"><strong>Drift</strong><p>The cases, policy, customer behavior, or reviewer change until an old result stops matching reality.</p></article>
+          <article class="term"><strong>Handoff contract</strong><p>The minimum facts, evidence, unknowns, owner, and next action required before a transfer.</p></article>
+          <article class="term"><strong>Fresh state</strong><p>A new observation made after the action, not the same screen or record seen before it.</p></article>
+          <article class="term"><strong>Proof seal</strong><p>A record that binds a result to the exact code and evidence versions that produced it.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Primary sources</p>
+          <h2>Read the evidence behind the lesson</h2>
+          <p>The methodology handoff records the full source map and claim rules. These links lead to the main live sources behind the strongest conclusions.</p>
+        </div>
+        <div class="sources">
+          <div>
+            <h3>Current reusable framework</h3>
+            <ul>
+              <li><a href="../SPEC.md">Support Evals 0.1 specification</a></li>
+              <li><a href="../README.md">Support Evals README</a></li>
+              <li><a href="../examples/output/support-portfolio-run-2026-08-29.json">Cross-product evidence record</a></li>
+              <li><a href="how-i-run-support-evals.html">How I Run Support Evals</a></li>
+              <li><a href="what-i-learned-building-support-products-methodology.md">Methodology and provenance handoff</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Original methods</h3>
+            <ul>
+              <li><a href="file:///Users/aditya/Documents/Projects/real-time_support/FINDINGS_phase1.md">Realtime Support findings</a></li>
+              <li><a href="file:///Users/aditya/Documents/Projects/experiments/support-copilot-lab/README.md">Support Copilot Lab</a></li>
+              <li><a href="file:///Users/aditya/Documents/Projects/experiments/eval-judges/README.md">Quality Agency</a></li>
+              <li><a href="file:///Users/aditya/Documents/Projects/meaning-preserving_transcript-processing/README.md">Transcript preservation</a></li>
+              <li><a href="file:///Users/aditya/Documents/Projects/screen-aware-support/README.md">Screen-Aware Support</a></li>
+              <li><a href="file:///Users/aditya/Documents/Projects/support/handoff-engine/README.md">Handoff Quality Gate</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="closing">
+          <strong>The product lesson is restraint with proof.</strong>
+          <p>Build the part that helps the next support decision. Adapt the parts that need human calibration. Kill the parts whose load-bearing assumption failed. Ask the agent a follow-up question when any evidence boundary is unclear.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer shell">Standalone editorial lesson · Kora Tier 3 · Evidence reviewed 30 August 2026</footer>
+
+  <script>
+    (function () {
+      const timelineButtons = Array.from(document.querySelectorAll('.timeline-button'));
+      const timelineTitle = document.getElementById('timeline-title');
+      const timelineObserved = document.getElementById('timeline-observed');
+      const timelineTurn = document.getElementById('timeline-turn');
+
+      timelineButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          timelineButtons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
+          timelineTitle.textContent = button.dataset.title;
+          timelineObserved.textContent = button.dataset.observed;
+          timelineTurn.textContent = button.dataset.turn;
+        });
+      });
+
+      const journeyButtons = Array.from(document.querySelectorAll('.journey-button'));
+      const journeyTitle = document.getElementById('journey-title');
+      const journeyEvidence = document.getElementById('journey-evidence');
+      const journeyFramework = document.getElementById('journey-framework');
+      const journeyEffect = document.getElementById('journey-effect');
+
+      journeyButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          journeyButtons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
+          journeyTitle.textContent = button.dataset.title;
+          journeyEvidence.textContent = button.dataset.evidence;
+          journeyFramework.textContent = button.dataset.framework;
+          journeyEffect.textContent = button.dataset.effect;
+        });
+      });
+
+      const decisionContent = {
+        build: {
+          label: 'Build when the method survives the test',
+          title: 'Build the evidence boundary',
+          copy: 'The strongest parts are the ones that make support claims harder to fake and easier to inspect.',
+          items: [
+            'Evidence-timed case state: facts, unknowns, branches, next check, and justified resolution.',
+            'Deterministic risk floors, bounded troubleshooting, and fail-closed handoff.',
+            'Action and fresh-state verification, including customer-only screen guidance.',
+            'A reusable local harness that keeps errors, unsafe outcomes, and abstentions visible.'
+          ]
+        },
+        adapt: {
+          label: 'Adapt when the capability helps but cannot own the decision',
+          title: 'Keep the useful part and narrow its authority',
+          copy: 'These capabilities showed value, but their evidence also exposed the conditions under which they fail.',
+          items: [
+            'Use AI reviewers as a second look, calibrated against people; do not let them replace exact checks.',
+            'Use intent confidence to ask or hand off; do not auto-route weak natural-language cases.',
+            'Keep transcript cleanup behind a meaning verifier and leave it off when support-critical meaning worsens.',
+            'Reuse screen guidance per registered app and version, with the customer as the only actor.'
+          ]
+        },
+        kill: {
+          label: 'Kill when the load-bearing assumption fails',
+          title: 'Stop funding confidence without evidence',
+          copy: 'A negative result is useful when it prevents the wrong product from becoming a larger commitment.',
+          items: [
+            'Kill broad early root-cause prediction: the specific cause was not present in the opening.',
+            'Kill default transcript normalization that increases support-critical meaning loss.',
+            'Kill the claim that synthetic validation proves natural customer routing.',
+            'Kill “done” based on a reply, tool request, target location, or timer without a verified final state.'
+          ]
+        }
+      };
+      const decisionButtons = Array.from(document.querySelectorAll('.decision-button'));
+      const decisionLabel = document.getElementById('decision-label');
+      const decisionTitle = document.getElementById('decision-title');
+      const decisionCopy = document.getElementById('decision-copy');
+      const decisionList = document.getElementById('decision-list');
+
+      decisionButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const content = decisionContent[button.dataset.decision];
+          decisionButtons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
+          decisionLabel.textContent = content.label;
+          decisionTitle.textContent = content.title;
+          decisionCopy.textContent = content.copy;
+          decisionList.replaceChildren.apply(decisionList, content.items.map(function (item) {
+            const row = document.createElement('li');
+            row.textContent = item;
+            return row;
+          }));
+        });
+      });
+
+      document.querySelectorAll('.scenario').forEach(function (scenario) {
+        const buttons = Array.from(scenario.querySelectorAll('button'));
+        const result = scenario.querySelector('.scenario-result');
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            const correct = button.dataset.choice === scenario.dataset.answer;
+            buttons.forEach(function (item) { item.setAttribute('aria-pressed', String(item === button)); });
+            result.textContent = correct ? scenario.dataset.correct : scenario.dataset.wrong;
+            result.className = 'scenario-result ' + (correct ? 'correct' : 'wrong');
+          });
+        });
+      });
+    }());
+  </script>
+</body>
+</html>
