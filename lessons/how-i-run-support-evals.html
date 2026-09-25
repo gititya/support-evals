@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A visual, non-technical lesson on how Adi runs customer-support evaluations.">
+  <title>How I Run Support Evals</title>
+  <!-- Kora Tier 3: this is a standalone editorial lesson, not a Kora product interface. -->
+  <style>
+    :root {
+      --paper:#f4efe6;
+      --ink:#202724;
+      --muted:#65706b;
+      --line:#d1c8b9;
+      --white:#fffdf8;
+      --coral:#d9674f;
+      --coral-soft:#f4d9d1;
+      --blue:#346e9e;
+      --blue-soft:#dceaf4;
+      --green:#34775d;
+      --green-soft:#dcebe3;
+      --amber:#9b6b22;
+      --amber-soft:#f1e4c8;
+      --red:#a6453c;
+      --red-soft:#f2d9d5;
+      --radius:18px;
+      --shadow:0 18px 50px rgba(57,44,28,.08);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    a { color:var(--blue); text-underline-offset:3px; }
+    button { font:inherit; }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline:3px solid var(--blue); outline-offset:3px; }
+    .shell { width:min(1180px,calc(100% - 32px)); margin:auto; }
+    .measure { width:min(760px,100%); margin-inline:auto; }
+    .eyebrow { margin:0 0 10px; color:var(--coral); font:700 12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase; }
+    h1,h2,h3 { margin-top:0; line-height:1.08; letter-spacing:-.035em; }
+    h1 { max-width:900px; margin-bottom:22px; font:600 clamp(42px,8vw,92px)/.96 Georgia,"Times New Roman",serif; }
+    h2 { font:600 clamp(32px,5vw,58px)/1.02 Georgia,"Times New Roman",serif; }
+    h3 { font-size:22px; }
+    p { margin:0 0 1em; }
+    .lead { max-width:760px; color:var(--muted); font-size:clamp(19px,2.5vw,25px); line-height:1.48; }
+    .hero { padding:72px 0 54px; }
+    .hero-note { display:inline-flex; align-items:center; gap:9px; margin-top:24px; padding:9px 12px; border:1px solid var(--line); border-radius:999px; background:rgba(255,253,248,.6); color:var(--muted); font-size:14px; }
+    .hero-note::before { content:""; width:9px; height:9px; border-radius:50%; background:var(--green); }
+    .lesson-nav { position:sticky; top:0; z-index:10; border-block:1px solid var(--line); background:rgba(244,239,230,.94); backdrop-filter:blur(14px); }
+    .lesson-nav .shell { display:flex; gap:8px; overflow:auto; padding:10px 0; scrollbar-width:none; }
+    .lesson-nav a { flex:0 0 auto; padding:7px 11px; border-radius:999px; color:var(--muted); font-size:13px; font-weight:650; text-decoration:none; }
+    .lesson-nav a:hover { background:var(--white); color:var(--ink); }
+    .section { padding:86px 0; border-top:1px solid var(--line); }
+    .section-intro { margin-bottom:34px; }
+    .section-intro p:not(.eyebrow) { max-width:740px; color:var(--muted); font-size:19px; }
+    .qa-bridge { display:grid; grid-template-columns:1fr auto 1fr; align-items:stretch; gap:18px; }
+    .bridge-card { padding:26px; border-radius:var(--radius); background:var(--white); box-shadow:var(--shadow); }
+    .bridge-card h3 { margin-bottom:10px; }
+    .bridge-card ul { margin:16px 0 0; padding-left:20px; }
+    .bridge-card li { margin:9px 0; }
+    .bridge-arrow { display:grid; place-items:center; color:var(--coral); font-size:32px; }
+    .plain-callout { margin-top:24px; padding:18px 22px; border-left:5px solid var(--coral); background:var(--coral-soft); font:600 21px/1.5 Georgia,"Times New Roman",serif; }
+    .journey-layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr); gap:24px; align-items:start; }
+    .journey-map { display:grid; grid-template-columns:repeat(5,1fr); gap:9px; }
+    .journey-step { min-height:142px; padding:17px 14px; border:1px solid transparent; border-radius:14px; background:var(--white); color:var(--ink); cursor:pointer; text-align:left; box-shadow:var(--shadow); }
+    .journey-step span { display:block; margin-bottom:12px; color:var(--muted); font-size:13px; }
+    .journey-step strong { display:block; font-size:17px; }
+    .journey-step[aria-pressed="true"] { border-color:var(--coral); background:var(--coral-soft); }
+    .journey-detail { min-height:280px; padding:25px; border-radius:var(--radius); background:#26332f; color:#f8f2e8; }
+    .journey-detail .eyebrow { color:#ef9c89; }
+    .journey-detail p { color:#ccd7d1; }
+    .customer-effect { margin-top:20px; padding-top:17px; border-top:1px solid rgba(255,255,255,.17); color:#fff; font-weight:650; }
+    .stack { display:grid; gap:8px; width:min(820px,100%); margin:0 auto; }
+    .stack-row { display:grid; grid-template-columns:170px 1fr; gap:18px; align-items:center; padding:18px 20px; border-radius:14px; }
+    .stack-row:nth-child(1) { background:var(--amber-soft); }
+    .stack-row:nth-child(2) { background:var(--blue-soft); }
+    .stack-row:nth-child(3) { background:var(--green-soft); }
+    .stack-row:nth-child(4) { background:var(--coral-soft); }
+    .stack-row:nth-child(5) { background:#e5dfef; }
+    .stack-row strong { font-size:17px; }
+    .stack-row p { margin:0; color:#4f5a55; }
+    .code-name { color:var(--muted); font:600 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.06em; text-transform:uppercase; }
+    .run-board { overflow:hidden; border:1px solid var(--line); border-radius:24px; background:var(--white); box-shadow:var(--shadow); }
+    .case-head { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:28px; background:#26332f; color:#fff; }
+    .case-head p { margin:0; color:#d9e2dd; }
+    .run-flow { display:grid; grid-template-columns:repeat(6,1fr); gap:0; padding:26px; }
+    .run-node { position:relative; min-height:120px; padding:14px 11px; border-top:4px solid var(--blue); background:var(--blue-soft); }
+    .run-node:not(:last-child)::after { content:"→"; position:absolute; z-index:2; top:40px; right:-9px; color:var(--ink); font-weight:800; }
+    .run-node strong { display:block; margin-bottom:7px; }
+    .run-node span { color:var(--muted); font-size:13px; line-height:1.4; }
+    .case-choice { padding:0 28px 30px; }
+    .case-choice h3 { margin-bottom:14px; }
+    .choice-row { display:flex; flex-wrap:wrap; gap:10px; }
+    .choice { min-height:48px; padding:10px 15px; border:1px solid var(--line); border-radius:10px; background:var(--paper); color:var(--ink); cursor:pointer; }
+    .choice:hover { border-color:var(--blue); }
+    .choice[aria-pressed="true"] { border-color:var(--blue); background:var(--blue-soft); }
+    .case-feedback { min-height:84px; margin-top:16px; padding:17px; border-radius:12px; background:var(--paper); color:var(--muted); }
+    .case-feedback.good { background:var(--green-soft); color:#245440; }
+    .case-feedback.bad { background:var(--red-soft); color:#78342e; }
+    .topology { display:grid; grid-template-columns:1fr 90px 1.2fr 90px 1fr; gap:12px; align-items:center; }
+    .topology-box { min-height:180px; padding:23px; border-radius:var(--radius); background:var(--white); box-shadow:var(--shadow); }
+    .topology-box.current { background:#26332f; color:#fff; }
+    .topology-box.current p { color:#d0dad5; }
+    .topology-arrow { color:var(--coral); font-size:34px; font-weight:800; text-align:center; }
+    .tag-list { display:flex; flex-wrap:wrap; gap:7px; margin-top:15px; }
+    .tag { padding:5px 8px; border-radius:7px; background:var(--paper); color:var(--muted); font-size:12px; font-weight:650; }
+    .current .tag { background:rgba(255,255,255,.1); color:#e8efeb; }
+    .boundary-note { margin-top:22px; padding:18px; border:1px dashed var(--amber); border-radius:14px; background:var(--amber-soft); }
+    .families { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .family { border:1px solid var(--line); border-radius:16px; background:var(--white); overflow:hidden; }
+    .family summary { padding:20px; cursor:pointer; list-style:none; font-weight:750; }
+    .family summary::-webkit-details-marker { display:none; }
+    .family summary::after { content:"+"; float:right; color:var(--coral); font-size:22px; }
+    .family[open] summary::after { content:"−"; }
+    .family-body { padding:0 20px 20px; color:var(--muted); }
+    .family-body p:last-child { margin-bottom:0; }
+    .lesson-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .learning { padding:23px; border-radius:16px; background:var(--white); box-shadow:var(--shadow); }
+    .learning.wide { grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .before { color:var(--muted); text-decoration:line-through; text-decoration-color:var(--coral); }
+    .after { color:var(--green); font-weight:750; }
+    .truth-board { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .truth-col { padding:26px; border-radius:var(--radius); }
+    .truth-col.true { background:var(--green-soft); }
+    .truth-col.not-yet { background:var(--amber-soft); }
+    .truth-col ul { margin:16px 0 0; padding-left:21px; }
+    .truth-col li { margin:12px 0; }
+    .truth-line { margin-top:20px; padding:20px 22px; border-radius:14px; background:var(--red-soft); color:#6f302a; font-weight:700; text-align:center; }
+    .quiz-list { display:grid; gap:15px; }
+    .quiz { padding:23px; border:1px solid var(--line); border-radius:16px; background:var(--white); }
+    .quiz p { font-weight:700; }
+    .quiz-options { display:flex; flex-wrap:wrap; gap:9px; }
+    .quiz button { min-height:46px; padding:9px 14px; border:1px solid var(--line); border-radius:9px; background:var(--paper); cursor:pointer; }
+    .quiz button:hover { border-color:var(--blue); }
+    .quiz-result { min-height:27px; margin-top:12px; color:var(--muted); }
+    .quiz-result.correct { color:var(--green); font-weight:700; }
+    .quiz-result.wrong { color:var(--red); font-weight:700; }
+    .glossary { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .term-card { padding:17px; border-top:3px solid var(--blue); background:var(--blue-soft); }
+    .term-card strong { display:block; margin-bottom:6px; }
+    .term-card span { color:var(--muted); font-size:14px; }
+    .closing { padding:56px; border-radius:28px; background:#26332f; color:#fff; text-align:center; }
+    .closing p { width:min(700px,100%); margin:0 auto; color:#d2ddd7; font-size:20px; }
+    .closing strong { display:block; margin-bottom:18px; font:600 clamp(32px,5vw,56px)/1.05 Georgia,"Times New Roman",serif; }
+    .sources { margin-top:28px; color:var(--muted); font-size:14px; }
+    footer { padding:38px 0 60px; color:var(--muted); font-size:14px; }
+    @media (max-width:900px) {
+      .qa-bridge,.journey-layout,.truth-board,.lesson-grid,.case-head { grid-template-columns:1fr; }
+      .bridge-arrow { transform:rotate(90deg); }
+      .journey-map { grid-template-columns:repeat(2,1fr); }
+      .run-flow { grid-template-columns:repeat(3,1fr); gap:8px; }
+      .run-node:not(:last-child)::after { display:none; }
+      .topology { grid-template-columns:1fr; }
+      .topology-arrow { transform:rotate(90deg); }
+      .families { grid-template-columns:1fr; }
+      .learning.wide { display:block; }
+      .glossary { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:560px) {
+      .hero { padding-top:48px; }
+      .section { padding:64px 0; }
+      .journey-map,.run-flow,.glossary { grid-template-columns:1fr; }
+      .journey-step { min-height:auto; }
+      .stack-row { grid-template-columns:1fr; gap:5px; }
+      .closing { padding:34px 22px; }
+    }
+    @media print {
+      .lesson-nav,.choice-row,.quiz-options { display:none; }
+      body { background:white; }
+      .section { break-inside:avoid; }
+      .journey-layout,.truth-board,.lesson-grid,.qa-bridge { grid-template-columns:1fr 1fr; }
+      .topology { grid-template-columns:1fr; }
+      .topology-arrow { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero shell">
+    <p class="eyebrow">A visual lesson for support people</p>
+    <h1>How I run support evals</h1>
+    <p class="lead">What the framework does, where it runs, what my experiments taught me, and the line between local proof and real customer proof.</p>
+    <div class="hero-note">No engineering background required</div>
+  </header>
+
+  <nav class="lesson-nav" aria-label="Lesson sections">
+    <div class="shell">
+      <a href="#qa">QA → evals</a>
+      <a href="#journey">The journey</a>
+      <a href="#framework">The framework</a>
+      <a href="#run">Run a case</a>
+      <a href="#where">Where it runs</a>
+      <a href="#methods">Methods</a>
+      <a href="#learning">What I learned</a>
+      <a href="#truth">Truth boundary</a>
+      <a href="#practice">Test yourself</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section" id="qa">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Start with what you already know</p>
+          <h2>An eval is QA with a test environment</h2>
+          <p>You already know the core job: define good support, review a case against it, calibrate the reviewer, and use the result to improve quality.</p>
+        </div>
+        <div class="qa-bridge">
+          <article class="bridge-card">
+            <p class="eyebrow">Traditional support QA</p>
+            <h3>Reviews work after it happened</h3>
+            <ul>
+              <li>Samples real conversations</li>
+              <li>Uses a support scorecard</li>
+              <li>Finds coaching and process gaps</li>
+            </ul>
+          </article>
+          <div class="bridge-arrow" aria-hidden="true">→</div>
+          <article class="bridge-card">
+            <p class="eyebrow">AI support eval</p>
+            <h3>Can test work before release</h3>
+            <ul>
+              <li>Runs fixed practice cases</li>
+              <li>Checks actions as well as words</li>
+              <li>Can block a known bad change</li>
+            </ul>
+          </article>
+        </div>
+        <div class="plain-callout measure">The shift is not from “human QA” to “machine scores.” The shift is from sampling replies to testing complete support decisions.</div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">The thing being evaluated</p>
+          <h2>The customer journey, not the last reply</h2>
+          <p>Choose a stage. The right side shows what the framework checks and what failure feels like to the customer.</p>
+        </div>
+        <div class="journey-layout">
+          <div class="journey-map" aria-label="Support journey stages">
+            <button class="journey-step" type="button" aria-pressed="true" data-title="Understand the customer" data-check="Keep the customer’s goal, corrections, dates, amounts, risk words, and prior attempts intact." data-effect="If this fails, the customer starts in the wrong queue or receives help for a problem they did not report."><span>Customer meaning</span><strong>Understand</strong></button>
+            <button class="journey-step" type="button" aria-pressed="false" data-title="Investigate without guessing" data-check="Keep facts separate from guesses. Preserve open questions. Choose the next useful check before naming a cause." data-effect="If this fails, the customer is sent down a plausible but unsupported fix and may repeat work they already did."><span>Case work</span><strong>Investigate</strong></button>
+            <button class="journey-step" type="button" aria-pressed="false" data-title="Guide safely" data-check="Use the available policy and product evidence. Avoid invented facts, false reassurance, and promises outside the system’s authority." data-effect="If this fails, a polished answer can still mislead the customer or commit the company to something it cannot do."><span>Answer and route</span><strong>Guide</strong></button>
+            <button class="journey-step" type="button" aria-pressed="false" data-title="Act and verify" data-check="Check that the right action ran with the right details—and that the product state actually changed." data-effect="If this fails, the customer hears “you’re all set” while nothing changed in the product."><span>Tool and state</span><strong>Act</strong></button>
+            <button class="journey-step" type="button" aria-pressed="false" data-title="Resolve or hand off" data-check="End with a verified outcome, an honest limit, or a handoff containing the goal, evidence, prior work, unknowns, and next action." data-effect="If this fails, the customer must start again with the next person even though the system claims it escalated the case."><span>Final customer state</span><strong>Close</strong></button>
+          </div>
+          <aside class="journey-detail" aria-live="polite">
+            <p class="eyebrow">What QA asks</p>
+            <h3 id="journey-title">Understand the customer</h3>
+            <p id="journey-check">Keep the customer’s goal, corrections, dates, amounts, risk words, and prior attempts intact.</p>
+            <div class="customer-effect" id="journey-effect">If this fails, the customer starts in the wrong queue or receives help for a problem they did not report.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="framework">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">The reusable framework</p>
+          <h2>Five layers, each with one job</h2>
+          <p>The technical names matter only when you need to connect a product. In support language, this is a repeatable QA room.</p>
+        </div>
+        <div class="stack" aria-label="Five layers of the support eval framework">
+          <div class="stack-row"><div><strong>The practice case</strong><span class="code-name">Scenario</span></div><p>The customer goal, starting product state, evidence available, and the ending that counts as safe.</p></div>
+          <div class="stack-row"><div><strong>The product translator</strong><span class="code-name">Adapter</span></div><p>Turns that product’s chats, actions, screens, calls, handoffs, and final state into one common journey.</p></div>
+          <div class="stack-row"><div><strong>The QA scorecard</strong><span class="code-name">Evaluation profile</span></div><p>Selects the checks that fit this product: investigation, safety, action, handoff, voice, or another support concern.</p></div>
+          <div class="stack-row"><div><strong>The QA session</strong><span class="code-name">Runner + release gate</span></div><p>Runs every requested case, keeps failures visible, and stops a release when a serious rule is broken.</p></div>
+          <div class="stack-row"><div><strong>The audit record</strong><span class="code-name">Trace + JSON + HTML</span></div><p>Saves what happened and why. Langfuse can hold a review copy, but the local evidence remains the source of truth.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="run">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">Run one journey</p>
+          <h2>From customer case to release decision</h2>
+          <p>This is what “run the harness” means. The camera case is fictional, so it can be repeated safely whenever the support product changes.</p>
+        </div>
+        <div class="run-board">
+          <div class="case-head">
+            <div><p class="eyebrow">Customer case</p><h3>“My security camera went offline after I changed the Wi-Fi password.”</h3></div>
+            <div><p class="eyebrow">Known history</p><p>The customer already restarted the camera. The app still shows it as offline.</p></div>
+          </div>
+          <div class="run-flow" aria-label="A case moving through the evaluation harness">
+            <div class="run-node"><strong>Case</strong><span>Set the customer goal and starting state.</span></div>
+            <div class="run-node"><strong>Expected</strong><span>Define the safe behaviour before the run.</span></div>
+            <div class="run-node"><strong>Run</strong><span>Let the connected support product handle it.</span></div>
+            <div class="run-node"><strong>Review</strong><span>Check the full journey, not only the reply.</span></div>
+            <div class="run-node"><strong>Evidence</strong><span>Save the trace and customer effect.</span></div>
+            <div class="run-node"><strong>Decision</strong><span>Release, block, or mark proof incomplete.</span></div>
+          </div>
+          <div class="case-choice">
+            <h3>What should the system do next?</h3>
+            <div class="choice-row">
+              <button class="choice" type="button" aria-pressed="false" data-kind="bad" data-feedback="This fails the investigation. It ignores known history, repeats customer effort, and does not use the strongest clue: the network changed.">Repeat the restart steps</button>
+              <button class="choice" type="button" aria-pressed="false" data-kind="good" data-feedback="This uses the evidence. The next step should check the reconnect state and guide the customer through updating the saved network details.">Use the network-change clue</button>
+            </div>
+            <div class="case-feedback" aria-live="polite">Choose a next step. The lesson will show the support reason, not a numerical score.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="where">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">Where the work lives</p>
+          <h2>The portfolio and the reusable framework are not the same thing</h2>
+          <p>This distinction prevents the biggest overclaim.</p>
+        </div>
+        <div class="topology">
+          <article class="topology-box">
+            <p class="eyebrow">Original source projects</p>
+            <h3>Methods were built in separate repos</h3>
+            <p>Intent, transcript safety, investigation, routing, QA judges, handoffs, screen help, voice, and desk workflow still have their own native tests.</p>
+            <div class="tag-list"><span class="tag">Intent</span><span class="tag">Copilot</span><span class="tag">State Core</span><span class="tag">Handoff</span><span class="tag">Voice</span><span class="tag">Screen</span></div>
+          </article>
+          <div class="topology-arrow" aria-hidden="true">→</div>
+          <article class="topology-box current">
+            <p class="eyebrow">Current reusable repo</p>
+            <h3>Support Evals</h3>
+            <p>The shared contracts, runner, support checks, strict release rules, reports, fictional shop, and captured-voice pack now live together here.</p>
+            <div class="tag-list"><span class="tag">Local Python</span><span class="tag">Reference shop</span><span class="tag">Voice traces</span><span class="tag">No live calls</span></div>
+          </article>
+          <div class="topology-arrow" aria-hidden="true">→</div>
+          <article class="topology-box">
+            <p class="eyebrow">Future product connection</p>
+            <h3>One small adapter per product</h3>
+            <p>A saved transcript, sandbox, or local app can connect now. A real support operation can connect later under its own privacy and data rules.</p>
+            <div class="tag-list"><span class="tag">JSON evidence</span><span class="tag">HTML lesson</span><span class="tag">Optional Langfuse</span></div>
+          </article>
+        </div>
+        <div class="boundary-note"><strong>Important:</strong> the portfolio report collected evidence from many support areas. It did not prove that every source project already runs through this one new harness. Today, the reusable repo directly demonstrates the fictional chat operation and captured voice journeys.</div>
+      </div>
+    </section>
+
+    <section class="section" id="methods">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">The framework behind the framework</p>
+          <h2>Ten patterns, grouped into five support jobs</h2>
+          <p>The old Atlas listed ten methods one by one. These groups show when a support team would use them.</p>
+        </div>
+        <div class="families">
+          <details class="family" open><summary>Create trustworthy cases</summary><div class="family-body"><p><strong>Pre-build gate:</strong> test the assumption that makes the product worth building.</p><p><strong>Hidden answer keys:</strong> keep the expected truth away from the system being tested.</p><p><strong>Adversarial cases:</strong> include polished cases designed to slip past the checker.</p></div></details>
+          <details class="family"><summary>Judge the risky parts</summary><div class="family-body"><p><strong>Narrow judge panel:</strong> review grounding, process, promises, diagnosis, and handoff separately.</p><p><strong>Deterministic gates:</strong> use fixed rules for hard facts and let models advise at the edges.</p></div></details>
+          <details class="family"><summary>Review the work of support</summary><div class="family-body"><p><strong>Investigation grading:</strong> reward facts, unknowns, useful next checks, and waiting for evidence.</p><p><strong>Journey outcome:</strong> verify the action, final product state, and handoff—not only the reply.</p></div></details>
+          <details class="family"><summary>Test each weak link</summary><div class="family-body"><p><strong>Support-shaped benchmarks:</strong> judge whether the component changes the support outcome, not whether it wins a generic benchmark.</p><p><strong>Retrieval, classification, and detection:</strong> test whether the right knowledge, intent, and sensitive details survive.</p></div></details>
+          <details class="family"><summary>Keep the proof honest</summary><div class="family-body"><p><strong>Pre-set release bars:</strong> decide what “good enough” means before looking at the result.</p><p><strong>Control plane:</strong> decide which evaluations run on a code change, a release, research work, or a new product connection.</p><p><strong>Version seal:</strong> refuse to combine results from parts that did not actually run together.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="learning">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">The value of the experiments</p>
+          <h2>What I am learning</h2>
+          <p>The numbers belong in the evidence. These are the decisions the evidence changed.</p>
+        </div>
+        <div class="lesson-grid">
+          <article class="learning"><p class="before">If it works on clean practice language, it understands customers.</p><h3 class="after">Synthetic customers can flatter a weak system.</h3><p>Generated cases are good for repeatability. They are not proof that the system understands messy, indirect, emotional customer language.</p></article>
+          <article class="learning"><p class="before">A correct final cause means the troubleshooting was good.</p><h3 class="after">Being right too early is still bad support.</h3><p>The agent must earn a diagnosis from the evidence available at that point. A lucky guess is not a safe support method.</p></article>
+          <article class="learning"><p class="before">An AI reviewer can replace a broad human QA pass.</p><h3 class="after">The reviewer needs its own QA.</h3><p>Use model judgment for meaning. Use direct checks for tool calls, product state, timing, and required fields. Calibrate the judge with humans later.</p></article>
+          <article class="learning"><p class="before">A convincing reply proves the customer was helped.</p><h3 class="after">The product state proves the action.</h3><p>“You’re all set” is only a claim. Resolution means the promised change happened or the customer reached a clear next step.</p></article>
+          <article class="learning wide"><div><p class="before">Healthy components add up to a healthy support system.</p><h3 class="after">Green parts do not prove a green journey.</h3></div><p>The tested versions must be the versions that ran together. A stale seal, missing review layer, or incomplete journey should block the combined claim.</p></article>
+        </div>
+        <div class="plain-callout measure">Voice added one more lesson: the transcript is not the call. Hearing, timing, interruption, silence, repetition, action, and outcome all shape the customer experience.</div>
+      </div>
+    </section>
+
+    <section class="section" id="truth">
+      <div class="shell">
+        <div class="section-intro">
+          <p class="eyebrow">The claim boundary</p>
+          <h2>What is true now—and what is not true yet</h2>
+          <p>This is the part to use in an interview, article, README, or conversation with a support leader.</p>
+        </div>
+        <div class="truth-board">
+          <article class="truth-col true">
+            <p class="eyebrow">True now</p>
+            <h3>A serious local support-eval framework exists</h3>
+            <ul>
+              <li>It runs complete fictional chat journeys and saved voice journeys.</li>
+              <li>It separates cases, product connectors, QA checks, release rules, and evidence.</li>
+              <li>It catches the known failure patterns represented in its cases.</li>
+              <li>It can connect to another saved or sandboxed support product through an adapter.</li>
+              <li>It records failures, errors, incomplete work, and unsafe outcomes instead of hiding them.</li>
+            </ul>
+          </article>
+          <article class="truth-col not-yet">
+            <p class="eyebrow">Not true yet</p>
+            <h3>It is not a production-proven QA system</h3>
+            <ul>
+              <li>It has not reviewed real customer traffic or a real support queue.</li>
+              <li>It has not proved an effect on CSAT, resolution, effort, cost, or safety.</li>
+              <li>It cannot yet detect drift between its practice cases and real customer behaviour.</li>
+              <li>Its AI reviewers have not been calibrated at scale against a production QA team.</li>
+              <li>Its voice pack does not place calls or judge real telephony and audio quality.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="truth-line">Do not say: “I evaluated fifteen production support products.” Say: “I extracted and tested an evidence-gated support QA method across local components, experiments, and controlled journeys.”</div>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="shell">
+        <div class="section-intro measure">
+          <p class="eyebrow">Retrieval practice</p>
+          <h2>Can you apply the method?</h2>
+          <p>Choose the answer a support leader should defend. Feedback appears at once.</p>
+        </div>
+        <div class="quiz-list measure">
+          <article class="quiz">
+            <p>The answer sounds helpful, but it ignores what the customer already tried. What should QA examine?</p>
+            <div class="quiz-options"><button type="button" data-correct="false">Customer tone</button><button type="button" data-correct="true">Known evidence</button></div>
+            <div class="quiz-result" aria-live="polite"></div>
+          </article>
+          <article class="quiz">
+            <p>The agent says it changed the account, but no system record confirms it. What is the proof?</p>
+            <div class="quiz-options"><button type="button" data-correct="false">Spoken promise</button><button type="button" data-correct="true">Product state</button></div>
+            <div class="quiz-result" aria-live="polite"></div>
+          </article>
+          <article class="quiz">
+            <p>The call transcript is correct, but the agent repeatedly speaks over the caller. What should happen?</p>
+            <div class="quiz-options"><button type="button" data-correct="false">Pass the call</button><button type="button" data-correct="true">Fail the call</button></div>
+            <div class="quiz-result" aria-live="polite"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="glossary">
+      <div class="shell">
+        <div class="section-intro measure"><p class="eyebrow">Jargon translated</p><h2>The eight words you need</h2></div>
+        <div class="glossary">
+          <div class="term-card"><strong>Scenario</strong><span>The practice customer case.</span></div>
+          <div class="term-card"><strong>Expected behaviour</strong><span>What good support must do.</span></div>
+          <div class="term-card"><strong>Trace</strong><span>The record of what happened.</span></div>
+          <div class="term-card"><strong>Adapter</strong><span>The product-specific translator.</span></div>
+          <div class="term-card"><strong>Evaluator</strong><span>One focused QA check.</span></div>
+          <div class="term-card"><strong>Profile</strong><span>The scorecard chosen for this run.</span></div>
+          <div class="term-card"><strong>Release gate</strong><span>The rule that passes or blocks.</span></div>
+          <div class="term-card"><strong>Regression case</strong><span>A known failure kept as a future test.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="closing">
+          <strong>Evidence-gated journey QA</strong>
+          <p>A support decision should not pass QA unless the journey contains the evidence needed to defend it. Ask what the system knew, whether that was enough, whether the action happened, and whether the customer reached a safe next state.</p>
+        </div>
+        <div class="sources measure">
+          <p><strong>Primary local sources:</strong> the Support Evals <a href="../README.md">README</a> and <a href="../SPEC.md">specification</a>. This lesson consolidates the earlier Support Eval Atlas and the cross-portfolio evidence report, while correcting their tendency to lead with repo counts and test totals.</p>
+          <p><strong>Next reading:</strong> <a href="https://manthanguptaa.in/posts/evaluating_voice_agents/">How to Evaluate Voice Agents</a>, for a clear example of turning evaluation mechanics into a product argument.</p>
+          <p>Ask the agent to explain any stage with one of your actual support products, or to give you a fresh customer case to practise on.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">Built as one lesson for a support-domain reader. Local and controlled evidence only; no production customer claim.</footer>
+
+  <script>
+    const journeyButtons = [...document.querySelectorAll('.journey-step')];
+    const journeyTitle = document.getElementById('journey-title');
+    const journeyCheck = document.getElementById('journey-check');
+    const journeyEffect = document.getElementById('journey-effect');
+
+    journeyButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        journeyButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        journeyTitle.textContent = button.dataset.title;
+        journeyCheck.textContent = button.dataset.check;
+        journeyEffect.textContent = button.dataset.effect;
+      });
+    });
+
+    const choices = [...document.querySelectorAll('.choice')];
+    const caseFeedback = document.querySelector('.case-feedback');
+    choices.forEach((button) => {
+      button.addEventListener('click', () => {
+        choices.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        caseFeedback.className = `case-feedback ${button.dataset.kind}`;
+        caseFeedback.textContent = button.dataset.feedback;
+      });
+    });
+
+    document.querySelectorAll('.quiz').forEach((quiz) => {
+      const result = quiz.querySelector('.quiz-result');
+      quiz.querySelectorAll('button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const correct = button.dataset.correct === 'true';
+          result.className = `quiz-result ${correct ? 'correct' : 'wrong'}`;
+          result.textContent = correct ? 'Yes. That checks the support outcome.' : 'Not quite. Look past the wording and check what the journey proves.';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
